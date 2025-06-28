@@ -1,69 +1,37 @@
-# React + TypeScript + Vite
+# 📝 WriteDreams
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**WriteDreams** is a minimalistic web app that allows anyone to share a creative idea with the world — no registration required. The goal is to inspire others by sharing ideas that could become apps, books, films, or anything imaginable.
 
-Currently, two official plugins are available:
+## 🌟 How it works
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 📤 A user can **submit only one idea every 24 hours**.
+- ⏱️ After submitting, a **24-hour countdown** is triggered, during which the user cannot submit another idea.
+- 🧾 After writing, a menu appears with the following options:
+  - 🔍 Browse previously submitted ideas (only those that have received votes).
+  - 👍 Vote for other people's ideas to highlight them.
 
-## Expanding the ESLint configuration
+> ⚠️ Ideas without any votes (unrated) are not shown publicly. This behavior may evolve over time.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🎯 Goal
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+To create a space where people can freely share ideas that might inspire others and potentially change the world.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 💡 Technical inspiration
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- 🖋️ Interface styled after **Notion**: clean, clear, paper-like design.
+- 🧩 Icons and components: **Material UI**.
+- 💾 The countdown uses a system similar to how [idraw](https://idraw.co/) stores drawings: leveraging **localStorage** to persist state without requiring user accounts.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Tech stack (initial)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `Vite` + `React`
+- `Material UI` for the UI
+- `localStorage` for countdown timer and state
+- Future backend: TBD (likely Firebase, Supabase, or similar)
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🚧 Project status
+
+In development 🚀  
+Pull requests, issues, and suggestions are welcome!
+
+---

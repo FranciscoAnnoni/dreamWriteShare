@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import { useState } from 'react';
+import { Box } from '@mui/material';
+import './App.css';
+import SideMenu from './components/SideMenu/SideMenu';
+import ShareYourIdea from './pages/shareYourIdea';
+import SeeOtherIdeas from './pages/seeOtherIdeas';
+import AboutUs from './pages/aboutUs';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState('shareYourIdea');
+
+  const handlePageChange = (page: string) => {
+    setCurrentPage(page);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Box sx={{ display: 'flex' }}>
+      <SideMenu currentPage={currentPage} onPageChange={handlePageChange} />
+      
+      <Box 
+        component="main" 
+        sx={{ 
+          flexGrow: 1, 
+          ml: '20px',
+          minHeight: '100vh'
+        }}
+      >
+
+        <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <ShareYourIdea />
+        </Box>
+        
+        <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <SeeOtherIdeas />
+        </Box>
+        
+        <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <AboutUs />
+        </Box>
+      </Box>
+    </Box>
+  );
 }
 
-export default App
+export default App;

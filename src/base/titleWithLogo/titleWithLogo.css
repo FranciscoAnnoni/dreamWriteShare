@@ -1,0 +1,41 @@
+.title-with-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+/* Hovers personalizados */
+.logo--light:hover {
+  cursor: pointer;
+  filter: drop-shadow(0 0 2em #ff8c00aa); /* Naranja */
+}
+
+.logo--idea:hover {
+  filter: drop-shadow(0 0 2em #007bffaa); /* Azul */
+}
+
+.logo--default:hover {
+  filter: drop-shadow(0 0 2em #646cffaa); /* Default */
+}
+
+.title-with-logo__title {
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.2;
+}

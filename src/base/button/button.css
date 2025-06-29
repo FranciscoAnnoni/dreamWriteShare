@@ -1,0 +1,140 @@
+.custom-button {
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  outline: none;
+}
+
+.custom-button:focus {
+  outline: 2px solid rgba(255, 165, 0, 0.5);
+  outline-offset: 2px;
+}
+
+.custom-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.custom-button:disabled:hover {
+  transform: none !important;
+}
+
+/* Variants */
+.custom-button--primary {
+  background: linear-gradient(135deg, #ff8500 0%, #ff6b00 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 133, 0, 0.3);
+}
+
+.custom-button--primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff9500 0%, #ff7b00 100%);
+  box-shadow: 0 6px 16px rgba(255, 133, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.custom-button--primary:active:not(:disabled) {
+  background: linear-gradient(135deg, #ff7500 0%, #ff5b00 100%);
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 133, 0, 0.3);
+}
+
+.custom-button--secondary {
+  background: transparent;
+  color: #ff8500;
+  border: 2px solid #ff8500;
+}
+
+.custom-button--secondary:hover:not(:disabled) {
+  background: #ff8500;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 133, 0, 0.3);
+}
+
+/* Sizes */
+.custom-button--small {
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  min-height: 36px;
+}
+
+.custom-button--medium {
+  padding: 12px 24px;
+  font-size: 1rem;
+  min-height: 44px;
+}
+
+.custom-button--large {
+  padding: 16px 32px;
+  font-size: 1.125rem;
+  min-height: 52px;
+}
+
+/* Button content */
+.button-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: inherit;
+}
+
+.button-arrow {
+  font-size: 1.2em;
+  transition: transform 0.3s ease;
+}
+
+.custom-button:hover:not(:disabled) .button-arrow {
+  transform: translateX(4px);
+}
+
+/* Ripple effect */
+.custom-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: width 0.6s, height 0.6s;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.custom-button:active:not(:disabled)::before {
+  width: 300px;
+  height: 300px;
+}
+
+.button-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .custom-button--primary {
+    background: linear-gradient(135deg, #ff8500 0%, #ff6b00 100%);
+    box-shadow: 0 4px 12px rgba(255, 133, 0, 0.2);
+  }
+  
+  .custom-button--primary:hover:not(:disabled) {
+    box-shadow: 0 6px 16px rgba(255, 133, 0, 0.3);
+  }
+  
+  .custom-button--secondary {
+    border-color: #ff8500;
+    color: #ff8500;
+  }
+}

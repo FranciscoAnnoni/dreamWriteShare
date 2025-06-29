@@ -7,6 +7,7 @@ interface InputTextProps {
   onChange?: (value: string) => void;
   className?: string;
   maxLength?: number;
+  disabled?: boolean;
 }
 
 const InputText: React.FC<InputTextProps> = ({
@@ -14,7 +15,8 @@ const InputText: React.FC<InputTextProps> = ({
   value,
   onChange,
   className = '',
-  maxLength = 600
+  maxLength = 600,
+  disabled = false
 }) => {
   const [internalValue, setInternalValue] = useState(value || '');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -56,15 +58,16 @@ const InputText: React.FC<InputTextProps> = ({
   }
 
   return (
-    <div className={`input-text-card ${className}`}>
+    <div className={`input-text-card ${className} ${disabled ? 'disabled' : ''}`}>
       <textarea
         ref={textareaRef}
         className="input-text-field"
-        placeholder={placeholder}
+        placeholder={disabled ? "You need to wait before submitting another idea..." : placeholder}
         value={currentValue}
         onChange={handleChange}
         rows={1}
         maxLength={maxLength}
+        disabled={disabled}
       />
       <div className={counterClass}>
         {currentValue.length}/{maxLength} caracteres

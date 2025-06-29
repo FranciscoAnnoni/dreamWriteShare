@@ -79,3 +79,29 @@
 .character-counter.danger {
   color: #ef4444;
 }
+
+/* Disabled state */
+.input-text-card.disabled {
+  opacity: 0.6;
+  background-color: var(--color-input-text-background-disabled);
+  border-color: var(--color-border-disabled);
+  cursor: not-allowed;
+}
+
+.input-text-card.disabled:hover {
+  border-color: var(--color-border-disabled);
+}
+
+.input-text-card.disabled .input-text-field {
+  cursor: not-allowed;
+  color: var(--color-text-disabled);
+}
+
+.input-text-card.disabled .input-text-field::placeholder {
+  color: var(--color-text-disabled);
+  opacity: 0.8;
+}
+
+.input-text-card.disabled .character-counter {
+  color: var(--color-text-disabled);
+}

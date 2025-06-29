@@ -1,0 +1,83 @@
+.top-icons-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hide icons when scrolling */
+.top-icons-container.hidden {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+
+.top-icon {
+  color: var(--color-text) !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 10px !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  min-width: 44px !important;
+  height: 44px !important;
+  
+  /* Remove background hover effect */
+  &:hover {
+    background-color: transparent !important;
+    border: none !important;
+    border-color: transparent !important;
+    transform: translateY(-1px);
+  }
+  
+  /* Icon styling */
+  .MuiSvgIcon-root {
+    font-size: 22px;
+    transition: transform 0.2s ease;
+  }
+  
+  /* Smooth scaling on hover */
+  &:hover .MuiSvgIcon-root {
+    transform: scale(1.1);
+  }
+  
+  /* Remove focus outline and border */
+  &:focus,
+  &:focus-visible {
+    outline: none !important;
+    border: none !important;
+    border-color: transparent !important;
+  }
+  
+  /* Remove any button styles that might be inherited */
+  &.MuiIconButton-root {
+    border: none !important;
+    outline: none !important;
+  }
+  
+  &.MuiIconButton-root:hover {
+    border: none !important;
+    border-color: transparent !important;
+    background-color: transparent !important;
+  }
+  
+  &.MuiIconButton-root:focus {
+    border: none !important;
+    border-color: transparent !important;
+    outline: none !important;
+  }
+}
+
+/* Animation for dark mode toggle icon */
+.top-icon:first-child .MuiSvgIcon-root {
+  transition: transform 0.3s ease, rotate 0.3s ease;
+}
+
+.top-icon:first-child:hover .MuiSvgIcon-root {
+  rotate: 180deg;
+  transform: scale(1.1);
+}

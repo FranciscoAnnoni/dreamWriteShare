@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '../../base/box/box';
-import TitleWithLogo from '../../base/titleWithLogo/titleWithLogo';
+import TitleWithLogo from '../../components/titleWithLogo/titleWithLogo';
 
 const SeeOtherIdeas: React.FC = () => {
   return (
@@ -10,7 +10,8 @@ const SeeOtherIdeas: React.FC = () => {
       flexDirection: 'column', 
       justifyContent: 'center',
       alignItems: 'center',
-      gap: '2rem'
+      gap: '2rem',
+      marginTop: '-15rem'
     }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <TitleWithLogo 

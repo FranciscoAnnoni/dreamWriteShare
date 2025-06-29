@@ -28,7 +28,9 @@ const StyledDrawer = styled(Drawer)(() => ({
   },
 }));
 
-const StyledListItem = styled(ListItem)<{ active?: boolean }>(({ active }) => ({
+const StyledListItem = styled(ListItem, {
+  shouldForwardProp: (prop) => prop !== 'active',
+})<{ active?: boolean }>(({ active }) => ({
   cursor: 'pointer',
   padding: '16px 24px',
   margin: '8px 0',
@@ -43,7 +45,9 @@ const StyledListItem = styled(ListItem)<{ active?: boolean }>(({ active }) => ({
   },
 }));
 
-const StyledListItemText = styled(ListItemText)<{ active?: boolean }>(({ active }) => ({
+const StyledListItemText = styled(ListItemText, {
+  shouldForwardProp: (prop) => prop !== 'active',
+})<{ active?: boolean }>(({ active }) => ({
   '& .MuiListItemText-primary': {
     fontFamily: 'var(--font-family)',
     fontSize: '1.3rem',

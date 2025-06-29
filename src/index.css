@@ -12,15 +12,25 @@
   --color-button-light: #f9f9f9;
   --color-button-hover-light: #e5e7eb;
   
+  /* Light Mode Disabled Colors */
+  --color-input-text-background-disabled-light: #f9fafb;
+  --color-border-disabled-light: #e5e7eb;
+  --color-text-disabled-light: #9ca3af;
+  
   /* Dark Mode Colors */
   --color-background-dark: #242424;
   --color-text-dark: rgba(255, 255, 255, 0.87);
   --color-text-secondary-dark: #cccccc;
-  --color-input-text-background-dark: #3d3d3d; 
+  --color-input-text-background-dark: #5f5e5e; 
   --color-border-dark: #374151;
   --color-card-dark: #1f2937;
   --color-button-dark: #1a1a1a;
   --color-button-hover-dark: #374151;
+  
+  /* Dark Mode Disabled Colors */
+  --color-input-text-background-disabled-dark: #2e2e2e;
+  --color-border-disabled-dark: #374151;
+  --color-text-disabled-dark: #6b7280;
   
   /* Default to light mode */
   --color-background: var(--color-background-light);
@@ -31,6 +41,11 @@
   --color-card: var(--color-card-light);
   --color-button: var(--color-button-light);
   --color-button-hover: var(--color-button-hover-light);
+  
+  /* Default disabled colors */
+  --color-input-text-background-disabled: var(--color-input-text-background-disabled-light);
+  --color-border-disabled: var(--color-border-disabled-light);
+  --color-text-disabled: var(--color-text-disabled-light);
 
   font-family: var(--font-family);
   line-height: 1.5;
@@ -57,11 +72,17 @@
     --color-card: var(--color-card-dark);
     --color-button: var(--color-button-dark);
     --color-button-hover: var(--color-button-hover-dark);
+    
+    /* Dark mode disabled colors */
+    --color-input-text-background-disabled: var(--color-input-text-background-disabled-dark);
+    --color-border-disabled: var(--color-border-disabled-dark);
+    --color-text-disabled: var(--color-text-disabled-dark);
   }
 }
 
 /* Manual dark mode class (optional) */
-[data-theme="dark"] {
+[data-theme="dark"],
+.dark-mode {
   --color-background: var(--color-background-dark);
   --color-text: var(--color-text-dark);
   --color-text-secondary: var(--color-text-secondary-dark);
@@ -70,6 +91,11 @@
   --color-card: var(--color-card-dark);
   --color-button: var(--color-button-dark);
   --color-button-hover: var(--color-button-hover-dark);
+  
+  /* Dark mode disabled colors */
+  --color-input-text-background-disabled: var(--color-input-text-background-disabled-dark);
+  --color-border-disabled: var(--color-border-disabled-dark);
+  --color-text-disabled: var(--color-text-disabled-dark);
 }
 
 /* Manual light mode class (optional) */
@@ -82,6 +108,11 @@
   --color-card: var(--color-card-light);
   --color-button: var(--color-button-light);
   --color-button-hover: var(--color-button-hover-light);
+  
+  /* Light mode disabled colors */
+  --color-input-text-background-disabled: var(--color-input-text-background-disabled-light);
+  --color-border-disabled: var(--color-border-disabled-light);
+  --color-text-disabled: var(--color-text-disabled-light);
 }
 
 a {

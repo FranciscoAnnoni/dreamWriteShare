@@ -2,7 +2,7 @@
   position: relative;
   background-color: var(--color-input-text-background, var(--color-background, #ffffff));
   border: 1px solid #d1d5db;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 8px;
   width: 280px;
   transition: border-color 0.2s ease;
@@ -115,17 +115,17 @@
 }
 
 .select-option:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: rgba(124, 138, 171, 0.471);
 }
 
 .select-option.selected {
-  background-color: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+  background-color: var(--color-dropdown-selected-bg);
+  color: var(--color-dropdown-selected);
   font-weight: 500;
 }
 
 .select-option.selected:hover {
-  background-color: rgba(59, 130, 246, 0.15);
+  background-color: var(--color-dropdown-selected-hover-bg);
 }
 
 .select-option.disabled {
@@ -167,10 +167,6 @@
   .select-option:hover {
     background-color: rgba(255, 255, 255, 0.05);
   }
-
-  .select-option.selected:hover {
-    background-color: rgba(59, 130, 246, 0.25);
-  }
 }
 
 [data-theme="dark"] .select-dropdown {
@@ -199,10 +195,6 @@
 
 [data-theme="dark"] .select-option:hover {
   background-color: rgba(255, 255, 255, 0.05);
-}
-
-[data-theme="dark"] .select-option.selected:hover {
-  background-color: rgba(59, 130, 246, 0.25);
 }
 
 /* Disabled state */

@@ -69,7 +69,7 @@ const SeeOtherIdeas: React.FC = () => {
         marginBottom: '14px',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: '620px', // Mismo ancho que LazyCards
+        width: '720px', // Mismo ancho que LazyCards
         padding: '0 20px' // Mismo padding interno que LazyCards
       }}>
         <SelectDropdown

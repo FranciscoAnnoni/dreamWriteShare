@@ -12,6 +12,15 @@
   --color-button-light: #f9f9f9;
   --color-button-hover-light: #e5e7eb;
   
+  /* Light Mode Dropdown Colors */
+  --color-dropdown-background-light: #ffffff;
+  --color-dropdown-border-light: #e5e7eb;
+  --color-dropdown-option-hover-light: #f9f9f9;
+  --color-dropdown-shadow-light: rgba(0, 0, 0, 0.1);
+  --color-dropdown-selected-light: #3b82f6;
+  --color-dropdown-selected-bg-light: rgba(59, 130, 246, 0.1);
+  --color-dropdown-selected-hover-bg-light: rgba(59, 130, 246, 0.15);
+  
   /* Light Mode Disabled Colors */
   --color-input-text-background-disabled-light: #f9fafb;
   --color-border-disabled-light: #e5e7eb;
@@ -23,9 +32,16 @@
   --color-text-secondary-dark: #cccccc;
   --color-input-text-background-dark: #5f5e5e; 
   --color-border-dark: #374151;
-  --color-card-dark: #1f2937;
+  --color-card-dark: #414141;
   --color-button-dark: #1a1a1a;
-  --color-button-hover-dark: #374151;
+  --color-button-hover-dark: #4d535d;
+  
+  /* Dark Mode Dropdown Colors */
+  --color-dropdown-background-dark: #414141;
+  --color-dropdown-border-dark: #374151;
+  --color-dropdown-selected-dark: #8fb4e2;
+  --color-dropdown-selected-bg-dark: rgba(72, 130, 201, 0.177);
+  --color-dropdown-selected-hover-bg-dark: rgba(96, 165, 250, 0.25);
   
   /* Dark Mode Disabled Colors */
   --color-input-text-background-disabled-dark: #2e2e2e;
@@ -41,6 +57,15 @@
   --color-card: var(--color-card-light);
   --color-button: var(--color-button-light);
   --color-button-hover: var(--color-button-hover-light);
+  
+  /* Default dropdown colors */
+  --color-dropdown-background: var(--color-dropdown-background-light);
+  --color-dropdown-border: var(--color-dropdown-border-light);
+  --color-dropdown-option-hover: var(--color-dropdown-option-hover-light);
+  --color-dropdown-shadow: var(--color-dropdown-shadow-light);
+  --color-dropdown-selected: var(--color-dropdown-selected-light);
+  --color-dropdown-selected-bg: var(--color-dropdown-selected-bg-light);
+  --color-dropdown-selected-hover-bg: var(--color-dropdown-selected-hover-bg-light);
   
   /* Default disabled colors */
   --color-input-text-background-disabled: var(--color-input-text-background-disabled-light);
@@ -73,6 +98,15 @@
     --color-button: var(--color-button-dark);
     --color-button-hover: var(--color-button-hover-dark);
     
+    /* Dark mode dropdown colors */
+    --color-dropdown-background: var(--color-dropdown-background-dark);
+    --color-dropdown-border: var(--color-dropdown-border-dark);
+    --color-dropdown-option-hover: var(--color-dropdown-option-hover-dark);
+    --color-dropdown-shadow: var(--color-dropdown-shadow-dark);
+    --color-dropdown-selected: var(--color-dropdown-selected-dark);
+    --color-dropdown-selected-bg: var(--color-dropdown-selected-bg-dark);
+    --color-dropdown-selected-hover-bg: var(--color-dropdown-selected-hover-bg-dark);
+    
     /* Dark mode disabled colors */
     --color-input-text-background-disabled: var(--color-input-text-background-disabled-dark);
     --color-border-disabled: var(--color-border-disabled-dark);
@@ -92,6 +126,15 @@
   --color-button: var(--color-button-dark);
   --color-button-hover: var(--color-button-hover-dark);
   
+  /* Dark mode dropdown colors */
+  --color-dropdown-background: var(--color-dropdown-background-dark);
+  --color-dropdown-border: var(--color-dropdown-border-dark);
+  --color-dropdown-option-hover: var(--color-dropdown-option-hover-dark);
+  --color-dropdown-shadow: var(--color-dropdown-shadow-dark);
+  --color-dropdown-selected: var(--color-dropdown-selected-dark);
+  --color-dropdown-selected-bg: var(--color-dropdown-selected-bg-dark);
+  --color-dropdown-selected-hover-bg: var(--color-dropdown-selected-hover-bg-dark);
+  
   /* Dark mode disabled colors */
   --color-input-text-background-disabled: var(--color-input-text-background-disabled-dark);
   --color-border-disabled: var(--color-border-disabled-dark);
@@ -108,6 +151,15 @@
   --color-card: var(--color-card-light);
   --color-button: var(--color-button-light);
   --color-button-hover: var(--color-button-hover-light);
+  
+  /* Light mode dropdown colors */
+  --color-dropdown-background: var(--color-dropdown-background-light);
+  --color-dropdown-border: var(--color-dropdown-border-light);
+  --color-dropdown-option-hover: var(--color-dropdown-option-hover-light);
+  --color-dropdown-shadow: var(--color-dropdown-shadow-light);
+  --color-dropdown-selected: var(--color-dropdown-selected-light);
+  --color-dropdown-selected-bg: var(--color-dropdown-selected-bg-light);
+  --color-dropdown-selected-hover-bg: var(--color-dropdown-selected-hover-bg-light);
   
   /* Light mode disabled colors */
   --color-input-text-background-disabled: var(--color-input-text-background-disabled-light);

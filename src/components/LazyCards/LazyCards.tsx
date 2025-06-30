@@ -105,7 +105,7 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
       <Box
         sx={{
           height: `${CONTAINER_HEIGHT}px`,
-          width: '620px', // Un poco más ancho para acomodar el scroll externo
+          width: '720px', // Un poco más ancho para acomodar el scroll externo
           position: 'relative',
           display: 'flex',
           gap: '8px', // Espacio entre el contenido y el scroll
@@ -114,7 +114,7 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
         {/* Contenedor de contenido sin scroll */}
         <Box
           sx={{
-            width: '600px',
+            width: '700px',
             height: '100%',
             border: '1px solid var(--color-border)',
             borderRadius: '12px',

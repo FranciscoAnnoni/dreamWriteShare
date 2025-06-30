@@ -24,7 +24,7 @@ const LazyCard: React.FC<LazyCardProps> = ({ idea, rating, location, date, onCli
     opacity: inView ? 1 : 0.3,
     transform: inView ? 'scale(1)' : 'scale(0.98)',
     marginBottom: '8px',
-    width: '550px',
+    width: '650px',
     height: '130px',
     flexShrink: 0,
   };

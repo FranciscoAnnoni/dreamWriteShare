@@ -8,7 +8,7 @@
   --color-text-secondary-light: #b9b9b9;
   --color-input-text-background-light: #fffefe; 
   --color-border-light: #e5e7eb;
-  --color-card-light: #f9fafb;
+  --color-card-light: #ffffff;
   --color-button-light: #f9f9f9;
   --color-button-hover-light: #e5e7eb;
   
@@ -115,15 +115,6 @@
   --color-text-disabled: var(--color-text-disabled-light);
 }
 
-a {
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   display: flex;
@@ -139,36 +130,6 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
   color: var(--color-text);
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid var(--color-border);
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: var(--font-family);
-  background-color: var(--color-button);
-  color: var(--color-text);
-  cursor: pointer;
-  transition: border-color 0.25s, background-color 0.25s;
-}
-button:hover {
-  border-color: var(--color-text-secondary);
-  background-color: var(--color-button-hover);
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  a:hover {
-    color: #747bff;
-  }
-  button:hover {
-    border-color: #646cff;
-  }
 }
 
 #root {

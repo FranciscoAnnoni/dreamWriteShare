@@ -1,0 +1,135 @@
+.clean-button {
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: var(--font-family);
+  background-color: var(--color-button);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  outline: none;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.clean-button:hover {
+  border-color: var(--color-text-secondary);
+  background-color: var(--color-button-hover);
+}
+
+.clean-button:focus,
+.clean-button:focus-visible {
+  outline: none;
+}
+
+
+/* Tamaños */
+.clean-button--small {
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  min-height: 36px;
+  gap: 6px;
+}
+
+.clean-button--medium {
+  padding: 12px 20px;
+  font-size: 1rem;
+  min-height: 44px;
+  gap: 8px;
+}
+
+.clean-button--large {
+  padding: 16px 24px;
+  font-size: 1.125rem;
+  min-height: 52px;
+  gap: 10px;
+}
+
+/* Elementos internos */
+.clean-button__text {
+  line-height: 1;
+}
+
+.clean-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.clean-button__icon svg {
+  width: 1em;
+  height: 1em;
+}
+
+/* Ajustes de tamaño para iconos */
+.clean-button--small .clean-button__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.clean-button--medium .clean-button__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.clean-button--large .clean-button__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .clean-button {
+    background-color: var(--color-card-dark);
+    border-color: var(--color-border-dark);
+    color: var(--color-text-dark);
+  }
+  
+  .clean-button:hover:not(.disabled) {
+    background-color: var(--color-button-hover-dark);
+  }
+  
+  .clean-button:active:not(.disabled) {
+    background-color: var(--color-border-dark);
+  }
+}
+
+[data-theme="dark"] .clean-button {
+  background-color: var(--color-card-dark);
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+}
+
+[data-theme="dark"] .clean-button:hover:not(.disabled) {
+  background-color: var(--color-button-hover-dark);
+}
+
+[data-theme="dark"] .clean-button:active:not(.disabled) {
+  background-color: var(--color-border-dark);
+}
+
+/* Variantes especiales para solo icono */
+.clean-button--icon-only {
+  padding: 12px;
+  min-width: 44px;
+  aspect-ratio: 1;
+}
+
+.clean-button--small.clean-button--icon-only {
+  padding: 8px;
+  min-width: 36px;
+}
+
+.clean-button--large.clean-button--icon-only {
+  padding: 16px;
+  min-width: 52px;
+}

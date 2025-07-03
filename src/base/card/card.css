@@ -8,8 +8,6 @@
   width: 650px;
   height: 130px;
   box-sizing: border-box;
-  
-  /* Variables CSS globales aplicadas */
   color: var(--color-text);
   font-family: var(--font-family);
 }

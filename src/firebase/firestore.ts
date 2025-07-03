@@ -6,7 +6,9 @@ import {
   orderBy, 
   limit,
   where,
-  Timestamp 
+  Timestamp,
+  doc,
+  updateDoc
 } from "firebase/firestore";
 import { db } from "./config";
 
@@ -17,16 +19,19 @@ export interface Idea {
   points: number;
   createdAt: Timestamp;
   userId?: string;
+  country?: string;
+  stars?: number; // Campo para las estrellas (0-5)
 }
 
-// Función para guardar una nueva idea
-export const saveIdea = async (ideaText: string, userId?: string): Promise<string> => {
+export const saveIdea = async (ideaText: string, userId?: string, country?: string): Promise<string> => {
   try {
     const docRef = await addDoc(collection(db, "ideas"), {
       idea: ideaText,
-      points: 0, // Inicializar con 0 puntos
+      points: 0,
+      stars: 0, // Inicializar estrellas en 0
       createdAt: Timestamp.now(),
-      userId: userId || null
+      userId: userId || null,
+      country: country || null
     });
     console.log("Idea guardada con ID: ", docRef.id);
     return docRef.id;
@@ -36,7 +41,6 @@ export const saveIdea = async (ideaText: string, userId?: string): Promise<strin
   }
 };
 
-// Función para obtener todas las ideas
 export const getIdeas = async (limitCount: number = 10): Promise<Idea[]> => {
   try {
     const q = query(
@@ -113,5 +117,112 @@ export const testFirebaseIndex = async (): Promise<boolean> => {
     }
     console.warn("Unexpected error testing Firebase index:", error);
     return false;
+  }
+};
+
+// Función para obtener ideas sin estrellas (stars = 0)
+export const getIdeasWithoutStars = async (limitCount: number = 10): Promise<Idea[]> => {
+  try {
+    const q = query(
+      collection(db, "ideas"), 
+      where("stars", "==", 0),
+      orderBy("createdAt", "desc"), 
+      limit(limitCount)
+    );
+    const querySnapshot = await getDocs(q);
+    
+    const ideas: Idea[] = [];
+    querySnapshot.forEach((doc) => {
+      ideas.push({
+        id: doc.id,
+        ...doc.data()
+      } as Idea);
+    });
+    
+    return ideas;
+  } catch (error) {
+    console.error("Error obteniendo las ideas sin estrellas: ", error);
+    throw error;
+  }
+};
+
+// Función para guardar las estrellas de una idea
+export const saveIdeaStars = async (ideaId: string, stars: number): Promise<void> => {
+  try {
+    const ideaRef = doc(db, "ideas", ideaId);
+    await updateDoc(ideaRef, {
+      stars: stars
+    });
+    console.log("Estrellas guardadas para la idea ID: ", ideaId);
+  } catch (error) {
+    console.error("Error guardando las estrellas de la idea: ", error);
+    throw error;
+  }
+};
+
+// Función para obtener una idea aleatoria sin estrellas (stars = 0)
+export const getRandomIdeaWithoutStars = async (): Promise<Idea | null> => {
+  try {
+    const q = query(
+      collection(db, "ideas"),
+      where("stars", "==", 0) // Ideas sin estrellas
+    );
+    
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.empty) {
+      return null;
+    }
+    
+    const ideas: Idea[] = [];
+    querySnapshot.forEach((doc) => {
+      ideas.push({
+        id: doc.id,
+        ...doc.data()
+      } as Idea);
+    });
+    
+    // Seleccionar una idea aleatoria
+    const randomIndex = Math.floor(Math.random() * ideas.length);
+    return ideas[randomIndex];
+  } catch (error) {
+    console.error("Error obteniendo idea aleatoria:", error);
+    // Si hay error con el índice, obtener todas las ideas y filtrar localmente
+    try {
+      const allIdeasQuery = query(collection(db, "ideas"));
+      const allIdeasSnapshot = await getDocs(allIdeasQuery);
+      
+      const ideasWithoutStars: Idea[] = [];
+      allIdeasSnapshot.forEach((doc) => {
+        const idea = { id: doc.id, ...doc.data() } as Idea;
+        if (!idea.stars || idea.stars === 0) {
+          ideasWithoutStars.push(idea);
+        }
+      });
+      
+      if (ideasWithoutStars.length === 0) {
+        return null;
+      }
+      
+      const randomIndex = Math.floor(Math.random() * ideasWithoutStars.length);
+      return ideasWithoutStars[randomIndex];
+    } catch (fallbackError) {
+      console.error("Error en fallback:", fallbackError);
+      return null;
+    }
+  }
+};
+
+// Función para actualizar las estrellas de una idea
+export const updateIdeaStars = async (ideaId: string, stars: number): Promise<void> => {
+  try {
+    const ideaRef = doc(db, "ideas", ideaId);
+    await updateDoc(ideaRef, {
+      stars: stars
+    });
+    console.log("Estrellas actualizadas para la idea:", ideaId);
+  } catch (error) {
+    console.error("Error actualizando estrellas:", error);
+    throw error;
   }
 };

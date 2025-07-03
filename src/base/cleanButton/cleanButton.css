@@ -133,3 +133,39 @@
   padding: 16px;
   min-width: 52px;
 }
+
+/* Estilos especiales para el botón de voto */
+.clean-button--vote-active {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+  border: 2px solid var(--color-text) !important;
+}
+
+.clean-button--vote-active:hover:not(.disabled) {
+  background-color: var(--color-button-hover) !important;
+  border-color: var(--color-text) !important;
+}
+
+.clean-button--vote-inactive {
+  background-color: var(--color-border) !important;
+  color: var(--color-text-secondary) !important;
+  border: 2px solid transparent !important;
+}
+
+.clean-button--vote-inactive:hover:not(.disabled) {
+  background-color: var(--color-button-hover) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Estilos para el botón Cancel - estilo original */
+.clean-button--cancel {
+  background-color: transparent !important;
+  color: var(--color-text-secondary) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+.clean-button--cancel:hover:not(.disabled) {
+  background-color: var(--color-button-hover) !important;
+  border-color: var(--color-text) !important;
+  color: var(--color-text) !important;
+}

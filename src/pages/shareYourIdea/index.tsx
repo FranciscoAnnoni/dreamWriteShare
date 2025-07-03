@@ -10,6 +10,7 @@ import { saveIdea } from '../../firebase/firestore';
 import { Alert, Snackbar } from '@mui/material';
 import { isValidIdea, getValidationMessage } from './components/validator/ideaValidator';
 import { dailySubmissionManager } from './components/localStorage';
+import { getCachedUserCountry } from '../../utils/geolocation';
 
 const ShareYourIdea: React.FC = () => {
   const [ideaText, setIdeaText] = useState('');
@@ -18,11 +19,26 @@ const ShareYourIdea: React.FC = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState<'success' | 'error' | 'info'>('success');
   const [canSubmit, setCanSubmit] = useState(true);
+  const [userCountry, setUserCountry] = useState<string>('');
 
   // Verificar estado al cargar el componente
   useEffect(() => {
     const status = dailySubmissionManager.getSubmissionStatus();
     setCanSubmit(status.canSubmit);
+    
+    // Obtener país del usuario
+    const loadUserCountry = async () => {
+      try {
+        const country = await getCachedUserCountry();
+        setUserCountry(country);
+        console.log('🌍 País del usuario:', country);
+      } catch (error) {
+        console.warn('⚠️ No se pudo obtener el país del usuario:', error);
+        setUserCountry('Desconocido');
+      }
+    };
+    
+    loadUserCountry();
   }, []);
 
   const handleSubmitIdea = async () => {
@@ -68,7 +84,7 @@ const ShareYourIdea: React.FC = () => {
       
       // Guardar la idea
       console.log('💾 Guardando idea en Firebase...');
-      await saveIdea(ideaText.trim(), userId);
+      await saveIdea(ideaText.trim(), userId, userCountry);
       
       // Marcar como enviado hoy
       dailySubmissionManager.markAsSubmittedToday();

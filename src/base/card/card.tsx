@@ -22,12 +22,10 @@ const Card: React.FC<CardProps> = ({
   onClick,
   children
 }) => {
-  // Truncar descripción a 250 caracteres
   const truncatedDescription = description.length > 250 
     ? description.substring(0, 250) + '...' 
     : description;
-    console.log( description.length)
-  // Renderizar estrellas
+
   const renderStars = (rating: number) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -42,7 +40,6 @@ const Card: React.FC<CardProps> = ({
         stars.push(<span key={i} className="star star-empty">☆</span>);
       }
     }
-    
     return stars;
   };
 

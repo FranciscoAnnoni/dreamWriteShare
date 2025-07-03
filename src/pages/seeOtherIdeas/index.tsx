@@ -4,6 +4,7 @@ import TitleWithLogo from '../../components/titleWithLogo/titleWithLogo';
 import LazyCards from '../../components/LazyCards';
 import SelectDropdown, { type SelectOption } from '../../base/selectDropdown';
 import CleanButton from '../../base/cleanButton';
+import VoteIdeas from './voteIdeas';
 import { getIdeas, type Idea } from '../../firebase/firestore';
 import { Star } from '@mui/icons-material';
 
@@ -11,6 +12,7 @@ const SeeOtherIdeas: React.FC = () => {
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('stars');
+  const [voteModalOpen, setVoteModalOpen] = useState(false);
 
   // Opciones del dropdown para ordenar
   const sortOptions: SelectOption[] = [
@@ -84,12 +86,22 @@ const SeeOtherIdeas: React.FC = () => {
           text="Votar Ideas"
           icon={<Star />}
           iconPosition="left"
-          onClick={() => console.log('Votar ideas clicked')}
+          onClick={() => setVoteModalOpen(true)}
           size="medium"
           sx={{marginRight: '15px'}}
         />
       </Box>
       <LazyCards ideas={ideas} loading={loading} />
+      
+      {/* Modal de votación */}
+      <VoteIdeas
+        open={voteModalOpen}
+        onClose={() => setVoteModalOpen(false)}
+        onVoteSubmitted={() => {
+          // Opcional: recargar ideas cuando se envía un voto
+          console.log('Voto enviado exitosamente!');
+        }}
+      />
     </div>
   );
 };

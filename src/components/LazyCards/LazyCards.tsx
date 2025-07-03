@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Box } from '@mui/material';
 import LazyCard from './LazyCard';
+import IdeaDialog from '../../pages/seeOtherIdeas/components/ideaDialog';
 import type { Idea } from '../../firebase/firestore';
 
 interface LazyCardsProps {
@@ -12,10 +13,14 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
   // Array de países aleatorios para las ideas
   const countries = ['España', 'México', 'Argentina', 'Chile', 'Colombia', 'Perú', 'Estados Unidos', 'Francia', 'Italia', 'Alemania'];
   
+  // Estados para el diálogo
+  const [selectedIdea, setSelectedIdea] = useState<Idea | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  
   // Configuración del scroll virtual
   const CARD_HEIGHT = 138; // Altura de cada card + margin (130 + 8)
   const CARDS_VISIBLE = 4; // Número de cards visibles
-  const CONTAINER_HEIGHT = CARD_HEIGHT * CARDS_VISIBLE +10; // Altura del contenedor
+  const CONTAINER_HEIGHT = CARD_HEIGHT * CARDS_VISIBLE +24; // Altura del contenedor
   const BUFFER_SIZE = 2; // Renderizar 2 items extra arriba y abajo para smooth scroll
   
   // Estados para la virtualización
@@ -37,18 +42,25 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
     setScrollTop(event.currentTarget.scrollTop);
   };
   
-  // Función para generar rating aleatorio pero consistente por idea
-  const getConsistentRating = (ideaId: string) => {
-    // Usar el ID de la idea para generar un número consistente
-    const hash = ideaId.split('').reduce((a, b) => {
-      a = ((a << 5) - a) + b.charCodeAt(0);
-      return a & a;
-    }, 0);
-    return Math.abs(hash % 5) + 1;
+  // Función para obtener rating de la idea
+  const getIdeaRating = (idea: Idea) => {
+    // Si la idea tiene estrellas reales, usarlas
+    if (idea.stars !== undefined && idea.stars > 0) {
+      return idea.stars;
+    }
+    // Si no tiene estrellas, no mostrar rating
+    return 0;
   };
   
   // Función para obtener país consistente por idea
-  const getConsistentCountry = (ideaId: string) => {
+  const getConsistentCountry = (idea: Idea): string => {
+    // Si la idea tiene país guardado, usarlo
+    if (idea.country && idea.country !== 'Desconocido') {
+      return idea.country;
+    }
+    
+    // Fallback: generar país consistente por ID
+    const ideaId = idea.id || '0';
     const hash = ideaId.split('').reduce((a, b) => {
       a = ((a << 5) - a) + b.charCodeAt(0);
       return a & a;
@@ -68,6 +80,18 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
     if (diffDays === 1) return 'Hace 1 día';
     if (diffDays < 7) return `Hace ${diffDays} días`;
     return date.toLocaleDateString();
+  };
+
+  // Función para manejar el click en una idea
+  const handleIdeaClick = (idea: Idea) => {
+    setSelectedIdea(idea);
+    setDialogOpen(true);
+  };
+
+  // Función para cerrar el diálogo
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setSelectedIdea(null);
   };
 
   if (loading) {
@@ -108,13 +132,13 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
           width: '720px', // Un poco más ancho para acomodar el scroll externo
           position: 'relative',
           display: 'flex',
-          gap: '8px', // Espacio entre el contenido y el scroll
+          gap: ideas.length >= 5 ? '8px' : '0px', // Solo gap si hay scrollbar
         }}
       >
         {/* Contenedor de contenido sin scroll */}
         <Box
           sx={{
-            width: '700px',
+            width: ideas.length >= 5 ? '700px' : '720px', // Usar todo el ancho si no hay scrollbar
             height: '100%',
             border: '1px solid var(--color-border)',
             borderRadius: '12px',
@@ -163,10 +187,10 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
                     <LazyCard
                       key={idea.id || actualIndex}
                       idea={idea}
-                      rating={getConsistentRating(idea.id || actualIndex.toString())}
-                      location={getConsistentCountry(idea.id || actualIndex.toString())}
+                      rating={getIdeaRating(idea)}
+                      location={getConsistentCountry(idea)}
                       date={formatDate(idea.createdAt)}
-                      onClick={() => console.log('Idea clicked:', idea.id)}
+                      onClick={() => handleIdeaClick(idea)}
                     />
                   );
                 })}
@@ -175,34 +199,46 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
           </Box>
         </Box>
 
-        {/* Scrollbar personalizada externa */}
-        <Box
-          sx={{
-            width: '4px', // Más fino
-            height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.05)',
-            borderRadius: '2px',
-            position: 'relative',
-            cursor: 'pointer',
-          }}
-        >
-          {/* Thumb del scroll */}
+        {/* Scrollbar personalizada externa - solo mostrar si hay 5 o más ideas */}
+        {ideas.length >= 5 && (
           <Box
             sx={{
-              width: '100%',
-              backgroundColor: 'var(--color-border)',
+              width: '4px', // Más fino
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.05)',
               borderRadius: '2px',
-              position: 'absolute',
-              top: `${ideas.length > 0 ? (scrollTop / (ideas.length * CARD_HEIGHT - CONTAINER_HEIGHT)) * (CONTAINER_HEIGHT - (CONTAINER_HEIGHT * CONTAINER_HEIGHT) / (ideas.length * CARD_HEIGHT)) : 0}px`,
-              height: `${ideas.length > 0 ? Math.max(20, (CONTAINER_HEIGHT * CONTAINER_HEIGHT) / (ideas.length * CARD_HEIGHT)) : 20}px`,
-              transition: 'background-color 0.2s ease',
-              '&:hover': {
-                backgroundColor: 'var(--color-text-secondary)',
-              },
+              position: 'relative',
+              cursor: 'pointer',
             }}
-          />
-        </Box>
+          >
+            {/* Thumb del scroll */}
+            <Box
+              sx={{
+                width: '100%',
+                backgroundColor: 'var(--color-border)',
+                borderRadius: '2px',
+                position: 'absolute',
+                top: `${ideas.length > 0 ? (scrollTop / (ideas.length * CARD_HEIGHT - CONTAINER_HEIGHT)) * (CONTAINER_HEIGHT - (CONTAINER_HEIGHT * CONTAINER_HEIGHT) / (ideas.length * CARD_HEIGHT)) : 0}px`,
+                height: `${ideas.length > 0 ? Math.max(20, (CONTAINER_HEIGHT * CONTAINER_HEIGHT) / (ideas.length * CARD_HEIGHT)) : 20}px`,
+                transition: 'background-color 0.2s ease',
+                '&:hover': {
+                  backgroundColor: 'var(--color-text-secondary)',
+                },
+              }}
+            />
+          </Box>
+        )}
       </Box>
+
+      {/* Diálogo para mostrar los detalles de la idea */}
+      <IdeaDialog
+        idea={selectedIdea}
+        open={dialogOpen}
+        onClose={handleCloseDialog}
+        rating={selectedIdea ? getIdeaRating(selectedIdea) : 0}
+        location={selectedIdea ? getConsistentCountry(selectedIdea) : ''}
+        date={selectedIdea ? formatDate(selectedIdea.createdAt) : ''}
+      />
     </Box>
   );
 };

@@ -21,15 +21,54 @@ const AboutUs: React.FC = () => {
           gap={16}
         />
       </Box>
-      <Box sx={{ textAlign: 'center', maxWidth: '600px' }}>
+      <Box sx={{ textAlign: 'center', maxWidth: '700px', padding: '0 16px' }}>
         <p style={{ 
-          fontSize: '1.2rem', 
-          color: 'var(--color-text-secondary)', 
-          lineHeight: 1.6 
+          fontSize: '1.1rem', 
+          color: 'var(--color-text-primary)', 
+          lineHeight: 1.6,
+          marginBottom: '1.5rem'
         }}>
-          We believe that every great innovation starts with a simple idea. 
-          Our platform connects dreamers, creators, and innovators from around the world.
+          Its creator <strong>Francisco Annoni</strong>, is passionate about developing applications 
+          and making an impact on people's lives. Every line of code is designed to connect 
+          ideas and transform dreams into reality.
         </p>
+        
+        <p style={{ 
+          fontSize: '1rem', 
+          color: 'var(--color-text-secondary)', 
+          lineHeight: 1.6,
+          marginBottom: '1.5rem'
+        }}>
+          If you're interested in learning more about his work or getting in touch:
+        </p>
+        
+        <a 
+          href="https://francisco-annoni.empressaria.com.ar/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-block',
+            padding: '12px 24px',
+            backgroundColor: 'var(--color-primary)',
+            color: 'var(--color-text-primary)',
+            textDecoration: 'none',
+            borderRadius: '8px',
+            fontSize: '1rem',
+            fontWeight: 500,
+            transition: 'all 0.3s ease',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+          }}
+        >
+          🌐 View Portfolio
+        </a>
       </Box>
     </div>
   );

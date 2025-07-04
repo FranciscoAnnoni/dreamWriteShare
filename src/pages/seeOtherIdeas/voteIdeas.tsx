@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Box, Modal, IconButton } from '@mui/material';
 import { Close, Star } from '@mui/icons-material';
-import CleanButton from '../../base/cleanButton';
+import CleanButton from '../../base/cleanButton/cleanButton';
 import Loading from '../../components/Loading/Loading';
 import { getRandomIdeaWithoutStars, voteIdea, type Idea } from '../../firebase/firestore';
-import { getUserCountry } from '../../utils/geolocation';
 
 interface VoteIdeasProps {
   open: boolean;
@@ -66,11 +65,8 @@ const VoteIdeas: React.FC<VoteIdeasProps> = ({
       const userId = localStorage.getItem('userId') || `user_${Date.now()}_${Math.random()}`;
       localStorage.setItem('userId', userId);
       
-      // Obtener país del usuario
-      const userCountry = await getUserCountry();
-      
       // Enviar voto
-      await voteIdea(idea.id, rating, userId, userCountry);
+      await voteIdea(idea.id, rating, userId);
       
       onVoteSubmitted?.();
       onClose();

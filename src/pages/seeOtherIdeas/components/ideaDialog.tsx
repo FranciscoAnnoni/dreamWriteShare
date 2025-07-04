@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Modal, IconButton } from '@mui/material';
 import { Close, Star } from '@mui/icons-material';
-import CleanButton from '../../../base/cleanButton';
-import Loading from '../../../components/Loading';
+import CleanButton from '../../../base/cleanButton/cleanButton';
+import Loading from '../../../components/Loading/Loading';
 import { hasUserVotedIdea, voteIdea, getUserVoteForIdea, type Idea, type IdeaVote } from '../../../firebase/firestore';
-import { getUserCountry } from '../../../utils/geolocation';
 
 interface IdeaDialogProps {
   idea: Idea | null;
@@ -90,9 +89,8 @@ const IdeaDialog: React.FC<IdeaDialogProps> = ({
     setSubmitting(true);
     try {
       const userId = getUserId();
-      const userCountry = await getUserCountry();
       
-      await voteIdea(idea.id, selectedStars, userId, userCountry);
+      await voteIdea(idea.id, selectedStars, userId);
       
       setHasVoted(true);
       setSelectedStars(0);

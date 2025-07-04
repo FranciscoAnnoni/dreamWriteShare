@@ -17,8 +17,6 @@ import { db } from "./config";
 export interface IdeaVote {
   userId: string;
   stars: number; // 1-5
-  timestamp: Timestamp;
-  userCountry?: string;
 }
 
 // Interfaz para las ideas
@@ -33,6 +31,15 @@ export interface Idea {
   averageStars: number; // Promedio calculado
   totalVotes: number; // Total de votos
   views?: number; // Campo para las vistas
+}
+
+// Interfaz para el feedback del usuario
+export interface UserFeedback {
+  id?: string;
+  feedback: string;
+  timestamp: Timestamp;
+  userId?: string;
+  userCountry?: string;
 }
 
 export const saveIdea = async (ideaText: string, userId?: string, country?: string): Promise<string> => {
@@ -179,7 +186,7 @@ export const hasUserVotedIdea = async (ideaId: string, userId: string): Promise<
 };
 
 // Función para votar una idea
-export const voteIdea = async (ideaId: string, stars: number, userId: string, userCountry?: string): Promise<void> => {
+export const voteIdea = async (ideaId: string, stars: number, userId: string): Promise<void> => {
   try {
     // Verificar que el usuario no haya votado ya
     const hasVoted = await hasUserVotedIdea(ideaId, userId);
@@ -190,9 +197,7 @@ export const voteIdea = async (ideaId: string, stars: number, userId: string, us
     // Crear el nuevo voto
     const newVote: IdeaVote = {
       userId,
-      stars,
-      timestamp: Timestamp.now(),
-      userCountry
+      stars
     };
 
     // Obtener la idea actual
@@ -359,5 +364,27 @@ export const incrementIdeaViews = async (ideaId: string): Promise<void> => {
     console.log("Vista incrementada para la idea:", ideaId);
   } catch (error) {
     console.error("Error incrementando vistas:", error);
+  }
+};
+
+// Función para enviar feedback del usuario
+export const submitUserFeedback = async (
+  feedbackText: string, 
+  userId?: string, 
+  country?: string
+): Promise<string> => {
+  try {
+    const docRef = await addDoc(collection(db, "feedback"), {
+      feedback: feedbackText,
+      timestamp: Timestamp.now(),
+      userId: userId || null,
+      userCountry: country || null
+    });
+    
+    console.log("Feedback enviado con ID: ", docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error enviando feedback: ", error);
+    throw error;
   }
 };

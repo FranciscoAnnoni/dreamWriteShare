@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Box from '../../base/box/box';
 import TitleWithLogo from '../../components/titleWithLogo/titleWithLogo';
-import LazyCards from '../../components/LazyCards';
+import LazyCards from '../../components/LazyCards/LazyCards';
 import Loading from '../../components/Loading/Loading';
-import SelectDropdown, { type SelectOption } from '../../base/selectDropdown';
-import CleanButton from '../../base/cleanButton';
+import SelectDropdown, { type SelectOption } from '../../base/selectDropdown/selectDropdown';
+import CleanButton from '../../base/cleanButton/cleanButton';
 import VoteIdeas from './voteIdeas';
 import { getIdeasWithStars, type Idea } from '../../firebase/firestore';
 import { Star } from '@mui/icons-material';

@@ -5,7 +5,7 @@ import Box from '../../base/box/box';
 import LittleText from '../../base/littleText/littleText';
 import DrawText from './components/drawText';
 import Button from '../../base/button/button';
-import Celebration from './components/celebration';
+import Celebration from './components/celebration/celebration';
 import { AccessTime } from '@mui/icons-material';
 import { saveIdea } from '../../firebase/firestore';
 import { Alert, Snackbar } from '@mui/material';

@@ -6,6 +6,7 @@ import {
   Share, 
   Settings 
 } from '@mui/icons-material';
+import LetAiImprovement from '../LetAiImprovement/LetAiImprovement';
 import './TopIcons.css';
 
 interface TopIconsProps {
@@ -18,6 +19,7 @@ const TopIcons: React.FC<TopIconsProps> = ({
   onDarkModeToggle
 }) => {
   const [isVisible, setIsVisible] = useState(true);
+  const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   
   useEffect(() => {
     let scrollTimer: NodeJS.Timeout;
@@ -57,41 +59,49 @@ const TopIcons: React.FC<TopIconsProps> = ({
   };
 
   const handleSettings = () => {
-    console.log('Settings clicked');
+    setShowFeedbackDialog(true);
   };
 
   return (
-    <Box className={`top-icons-container ${!isVisible ? 'hidden' : ''}`}>
-      {/* Dark/Light Mode Toggle */}
-      <IconButton
-        className="top-icon"
-        onClick={onDarkModeToggle}
-        aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-        title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-      >
-        {isDarkMode ? <LightMode /> : <DarkMode />}
-      </IconButton>
+    <>
+      <Box className={`top-icons-container ${!isVisible ? 'hidden' : ''}`}>
+        {/* Dark/Light Mode Toggle */}
+        <IconButton
+          className="top-icon"
+          onClick={onDarkModeToggle}
+          aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {isDarkMode ? <LightMode /> : <DarkMode />}
+        </IconButton>
 
-      {/* Share Icon */}
-      <IconButton
-        className="top-icon"
-        onClick={handleShare}
-        aria-label="Share"
-        title="Share"
-      >
-        <Share />
-      </IconButton>
+        {/* Share Icon */}
+        <IconButton
+          className="top-icon"
+          onClick={handleShare}
+          aria-label="Share"
+          title="Share"
+        >
+          <Share />
+        </IconButton>
 
-      {/* Settings Icon */}
-      <IconButton
-        className="top-icon"
-        onClick={handleSettings}
-        aria-label="Settings"
-        title="Settings"
-      >
-        <Settings />
-      </IconButton>
-    </Box>
+        {/* Settings Icon */}
+        <IconButton
+          className="top-icon"
+          onClick={handleSettings}
+          aria-label="Settings"
+          title="Settings"
+        >
+          <Settings />
+        </IconButton>
+      </Box>
+
+      {/* Feedback Dialog */}
+      <LetAiImprovement 
+        open={showFeedbackDialog} 
+        onClose={() => setShowFeedbackDialog(false)} 
+      />
+    </>
   );
 };
 

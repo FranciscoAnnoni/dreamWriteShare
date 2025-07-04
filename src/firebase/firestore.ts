@@ -8,9 +8,18 @@ import {
   where,
   Timestamp,
   doc,
-  updateDoc
+  updateDoc,
+  getDoc
 } from "firebase/firestore";
 import { db } from "./config";
+
+// Interfaz para un voto individual
+export interface IdeaVote {
+  userId: string;
+  stars: number; // 1-5
+  timestamp: Timestamp;
+  userCountry?: string;
+}
 
 // Interfaz para las ideas
 export interface Idea {
@@ -20,7 +29,10 @@ export interface Idea {
   createdAt: Timestamp;
   userId?: string;
   country?: string;
-  stars?: number; // Campo para las estrellas (0-5)
+  votes: IdeaVote[]; // Array de votos
+  averageStars: number; // Promedio calculado
+  totalVotes: number; // Total de votos
+  views?: number; // Campo para las vistas
 }
 
 export const saveIdea = async (ideaText: string, userId?: string, country?: string): Promise<string> => {
@@ -28,7 +40,10 @@ export const saveIdea = async (ideaText: string, userId?: string, country?: stri
     const docRef = await addDoc(collection(db, "ideas"), {
       idea: ideaText,
       points: 0,
-      stars: 0, // Inicializar estrellas en 0
+      votes: [], // Array vacío de votos
+      averageStars: 0, // Promedio inicial
+      totalVotes: 0, // Total de votos inicial
+      views: 0, // Inicializar vistas en 0
       createdAt: Timestamp.now(),
       userId: userId || null,
       country: country || null
@@ -120,12 +135,12 @@ export const testFirebaseIndex = async (): Promise<boolean> => {
   }
 };
 
-// Función para obtener ideas sin estrellas (stars = 0)
-export const getIdeasWithoutStars = async (limitCount: number = 10): Promise<Idea[]> => {
+// Función para obtener ideas sin votos (totalVotes = 0)
+export const getIdeasWithoutVotes = async (limitCount: number = 10): Promise<Idea[]> => {
   try {
     const q = query(
       collection(db, "ideas"), 
-      where("stars", "==", 0),
+      where("totalVotes", "==", 0),
       orderBy("createdAt", "desc"), 
       limit(limitCount)
     );
@@ -141,31 +156,100 @@ export const getIdeasWithoutStars = async (limitCount: number = 10): Promise<Ide
     
     return ideas;
   } catch (error) {
-    console.error("Error obteniendo las ideas sin estrellas: ", error);
+    console.error("Error obteniendo las ideas sin votos: ", error);
     throw error;
   }
 };
 
-// Función para guardar las estrellas de una idea
-export const saveIdeaStars = async (ideaId: string, stars: number): Promise<void> => {
+// Función para verificar si un usuario ya votó una idea
+export const hasUserVotedIdea = async (ideaId: string, userId: string): Promise<boolean> => {
   try {
     const ideaRef = doc(db, "ideas", ideaId);
-    await updateDoc(ideaRef, {
-      stars: stars
-    });
-    console.log("Estrellas guardadas para la idea ID: ", ideaId);
+    const ideaDoc = await getDoc(ideaRef);
+    
+    if (ideaDoc.exists()) {
+      const idea = ideaDoc.data() as Idea;
+      return idea.votes?.some(vote => vote.userId === userId) || false;
+    }
+    return false;
   } catch (error) {
-    console.error("Error guardando las estrellas de la idea: ", error);
+    console.error("Error verificando voto del usuario:", error);
+    return false;
+  }
+};
+
+// Función para votar una idea
+export const voteIdea = async (ideaId: string, stars: number, userId: string, userCountry?: string): Promise<void> => {
+  try {
+    // Verificar que el usuario no haya votado ya
+    const hasVoted = await hasUserVotedIdea(ideaId, userId);
+    if (hasVoted) {
+      throw new Error("El usuario ya ha votado esta idea");
+    }
+
+    // Crear el nuevo voto
+    const newVote: IdeaVote = {
+      userId,
+      stars,
+      timestamp: Timestamp.now(),
+      userCountry
+    };
+
+    // Obtener la idea actual
+    const ideaRef = doc(db, "ideas", ideaId);
+    const ideaDoc = await getDoc(ideaRef);
+    
+    if (!ideaDoc.exists()) {
+      throw new Error("Idea no encontrada");
+    }
+
+    const currentIdea = ideaDoc.data() as Idea;
+    const currentVotes = currentIdea.votes || [];
+    
+    // Agregar el nuevo voto
+    const updatedVotes = [...currentVotes, newVote];
+    
+    // Calcular nuevo promedio
+    const totalStars = updatedVotes.reduce((sum, vote) => sum + vote.stars, 0);
+    const newAverage = totalStars / updatedVotes.length;
+    
+    // Actualizar la idea
+    await updateDoc(ideaRef, {
+      votes: updatedVotes,
+      averageStars: Math.round(newAverage * 100) / 100, // Redondear a 2 decimales
+      totalVotes: updatedVotes.length
+    });
+
+    console.log("Voto agregado exitosamente:", { ideaId, stars, userId });
+  } catch (error) {
+    console.error("Error votando idea:", error);
     throw error;
   }
 };
 
-// Función para obtener una idea aleatoria sin estrellas (stars = 0)
+// Función para obtener el voto de un usuario específico para una idea
+export const getUserVoteForIdea = async (ideaId: string, userId: string): Promise<IdeaVote | null> => {
+  try {
+    const ideaRef = doc(db, "ideas", ideaId);
+    const ideaDoc = await getDoc(ideaRef);
+    
+    if (ideaDoc.exists()) {
+      const idea = ideaDoc.data() as Idea;
+      return idea.votes?.find(vote => vote.userId === userId) || null;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error obteniendo voto del usuario:", error);
+    return null;
+  }
+};
+
+// Función para obtener una idea aleatoria sin votos (totalVotes = 0)
 export const getRandomIdeaWithoutStars = async (): Promise<Idea | null> => {
   try {
     const q = query(
       collection(db, "ideas"),
-      where("stars", "==", 0) // Ideas sin estrellas
+      where("totalVotes", "==", 0) // Ideas sin votos
     );
     
     const querySnapshot = await getDocs(q);
@@ -192,20 +276,20 @@ export const getRandomIdeaWithoutStars = async (): Promise<Idea | null> => {
       const allIdeasQuery = query(collection(db, "ideas"));
       const allIdeasSnapshot = await getDocs(allIdeasQuery);
       
-      const ideasWithoutStars: Idea[] = [];
+      const ideasWithoutVotes: Idea[] = [];
       allIdeasSnapshot.forEach((doc) => {
         const idea = { id: doc.id, ...doc.data() } as Idea;
-        if (!idea.stars || idea.stars === 0) {
-          ideasWithoutStars.push(idea);
+        if (!idea.totalVotes || idea.totalVotes === 0) {
+          ideasWithoutVotes.push(idea);
         }
       });
       
-      if (ideasWithoutStars.length === 0) {
+      if (ideasWithoutVotes.length === 0) {
         return null;
       }
       
-      const randomIndex = Math.floor(Math.random() * ideasWithoutStars.length);
-      return ideasWithoutStars[randomIndex];
+      const randomIndex = Math.floor(Math.random() * ideasWithoutVotes.length);
+      return ideasWithoutVotes[randomIndex];
     } catch (fallbackError) {
       console.error("Error en fallback:", fallbackError);
       return null;
@@ -213,16 +297,67 @@ export const getRandomIdeaWithoutStars = async (): Promise<Idea | null> => {
   }
 };
 
-// Función para actualizar las estrellas de una idea
-export const updateIdeaStars = async (ideaId: string, stars: number): Promise<void> => {
+// Función para obtener ideas con votos (totalVotes > 0)
+export const getIdeasWithStars = async (limitCount: number = 10): Promise<Idea[]> => {
+  try {
+    const q = query(
+      collection(db, "ideas"), 
+      where("totalVotes", ">", 0),
+      orderBy("averageStars", "desc"), // Ordenar por promedio de estrellas descendente
+      orderBy("createdAt", "desc"), 
+      limit(limitCount)
+    );
+    const querySnapshot = await getDocs(q);
+    
+    const ideas: Idea[] = [];
+    querySnapshot.forEach((doc) => {
+      ideas.push({
+        id: doc.id,
+        ...doc.data()
+      } as Idea);
+    });
+    
+    return ideas;
+  } catch (error) {
+    console.error("Error obteniendo las ideas con votos: ", error);
+    // Fallback: obtener todas las ideas y filtrar localmente
+    try {
+      const allIdeasQuery = query(
+        collection(db, "ideas"),
+        orderBy("createdAt", "desc"),
+        limit(limitCount * 2) // Obtener más ideas para filtrar
+      );
+      const allIdeasSnapshot = await getDocs(allIdeasQuery);
+      
+      const ideasWithVotes: Idea[] = [];
+      allIdeasSnapshot.forEach((doc) => {
+        const idea = { id: doc.id, ...doc.data() } as Idea;
+        if (idea.totalVotes && idea.totalVotes > 0) {
+          ideasWithVotes.push(idea);
+        }
+      });
+      
+      // Ordenar por promedio de estrellas descendente
+      ideasWithVotes.sort((a, b) => (b.averageStars || 0) - (a.averageStars || 0));
+      
+      return ideasWithVotes.slice(0, limitCount);
+    } catch (fallbackError) {
+      console.error("Error en fallback para ideas con votos:", fallbackError);
+      throw fallbackError;
+    }
+  }
+};
+
+// Función para incrementar las vistas de una idea
+export const incrementIdeaViews = async (ideaId: string): Promise<void> => {
   try {
     const ideaRef = doc(db, "ideas", ideaId);
     await updateDoc(ideaRef, {
-      stars: stars
+      views: (await getDocs(query(collection(db, "ideas"), where("__name__", "==", ideaId))))
+        .docs[0]?.data()?.views || 0 + 1
     });
-    console.log("Estrellas actualizadas para la idea:", ideaId);
+    console.log("Vista incrementada para la idea:", ideaId);
   } catch (error) {
-    console.error("Error actualizando estrellas:", error);
-    throw error;
+    console.error("Error incrementando vistas:", error);
   }
 };

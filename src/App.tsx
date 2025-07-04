@@ -43,7 +43,7 @@ function App() {
       >
 
         <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <ShareYourIdea />
+          <ShareYourIdea onPageChange={handlePageChange} />
         </Box>
         
         <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

@@ -7,9 +7,10 @@ import type { Idea } from '../../firebase/firestore';
 interface LazyCardsProps {
   ideas: Idea[];
   loading?: boolean;
+  onVoteSubmitted?: () => void;
 }
 
-const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
+const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false, onVoteSubmitted }) => {
   // Array de países aleatorios para las ideas
   const countries = ['España', 'México', 'Argentina', 'Chile', 'Colombia', 'Perú', 'Estados Unidos', 'Francia', 'Italia', 'Alemania'];
   
@@ -44,11 +45,11 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
   
   // Función para obtener rating de la idea
   const getIdeaRating = (idea: Idea) => {
-    // Si la idea tiene estrellas reales, usarlas
-    if (idea.stars !== undefined && idea.stars > 0) {
-      return idea.stars;
+    // Si la idea tiene promedio de estrellas, usarlo
+    if (idea.averageStars !== undefined && idea.averageStars > 0) {
+      return idea.averageStars;
     }
-    // Si no tiene estrellas, no mostrar rating
+    // Si no tiene votos, no mostrar rating
     return 0;
   };
   
@@ -218,8 +219,8 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
                 backgroundColor: 'var(--color-border)',
                 borderRadius: '2px',
                 position: 'absolute',
-                top: `${ideas.length > 0 ? (scrollTop / (ideas.length * CARD_HEIGHT - CONTAINER_HEIGHT)) * (CONTAINER_HEIGHT - (CONTAINER_HEIGHT * CONTAINER_HEIGHT) / (ideas.length * CARD_HEIGHT)) : 0}px`,
-                height: `${ideas.length > 0 ? Math.max(20, (CONTAINER_HEIGHT * CONTAINER_HEIGHT) / (ideas.length * CARD_HEIGHT)) : 20}px`,
+                top: `${ideas.length > 3 ? (scrollTop / (ideas.length * CARD_HEIGHT - CONTAINER_HEIGHT)) * (CONTAINER_HEIGHT - (CONTAINER_HEIGHT * CONTAINER_HEIGHT) / (ideas.length * CARD_HEIGHT) - 15 ) : 0 }px`,
+                height: `${ideas.length > 3 ? Math.max(20, (CONTAINER_HEIGHT * CONTAINER_HEIGHT) / (ideas.length * CARD_HEIGHT)) : 20}px`,
                 transition: 'background-color 0.2s ease',
                 '&:hover': {
                   backgroundColor: 'var(--color-text-secondary)',
@@ -235,9 +236,9 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false }) => {
         idea={selectedIdea}
         open={dialogOpen}
         onClose={handleCloseDialog}
-        rating={selectedIdea ? getIdeaRating(selectedIdea) : 0}
         location={selectedIdea ? getConsistentCountry(selectedIdea) : ''}
         date={selectedIdea ? formatDate(selectedIdea.createdAt) : ''}
+        onVoteSubmitted={onVoteSubmitted}
       />
     </Box>
   );

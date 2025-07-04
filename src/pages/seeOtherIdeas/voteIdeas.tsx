@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Box, Modal, IconButton, CircularProgress } from '@mui/material';
+import { Box, Modal, IconButton } from '@mui/material';
 import { Close, Star } from '@mui/icons-material';
 import CleanButton from '../../base/cleanButton';
-import { getRandomIdeaWithoutStars, updateIdeaStars, type Idea } from '../../firebase/firestore';
+import Loading from '../../components/Loading/Loading';
+import { getRandomIdeaWithoutStars, voteIdea, type Idea } from '../../firebase/firestore';
+import { getUserCountry } from '../../utils/geolocation';
 
 interface VoteIdeasProps {
   open: boolean;
@@ -60,11 +62,25 @@ const VoteIdeas: React.FC<VoteIdeasProps> = ({
 
     setSubmitting(true);
     try {
-      await updateIdeaStars(idea.id, rating);
+      // Generar un userId temporal (en una app real esto vendría de autenticación)
+      const userId = localStorage.getItem('userId') || `user_${Date.now()}_${Math.random()}`;
+      localStorage.setItem('userId', userId);
+      
+      // Obtener país del usuario
+      const userCountry = await getUserCountry();
+      
+      // Enviar voto
+      await voteIdea(idea.id, rating, userId, userCountry);
+      
       onVoteSubmitted?.();
       onClose();
     } catch (error) {
       console.error('Error enviando voto:', error);
+      // Mostrar error al usuario si ya votó
+      if (error instanceof Error && error.message.includes('ya ha votado')) {
+        alert('Ya has votado esta idea. ¡Busquemos otra!');
+        loadRandomIdea(); // Cargar nueva idea
+      }
     } finally {
       setSubmitting(false);
     }
@@ -180,7 +196,11 @@ const VoteIdeas: React.FC<VoteIdeasProps> = ({
               alignItems: 'center', 
               minHeight: '300px' 
             }}>
-              <CircularProgress />
+              <Loading 
+                size="large" 
+                color="orange" 
+                text="Cargando idea para votar..." 
+              />
             </Box>
           ) : !idea ? (
             <Box sx={{ 
@@ -339,8 +359,8 @@ const VoteIdeas: React.FC<VoteIdeasProps> = ({
             />
             
             <CleanButton
-              text={submitting ? 'Sending...' : 'Vote'}
-              icon={submitting ? <CircularProgress size={16} /> : <Star />}
+              text={submitting ? 'Enviando...' : 'Votar'}
+              icon={submitting ? <Loading size="small" color="yellow" text="" /> : <Star />}
               iconPosition="left"
               onClick={handleSubmitVote}
               disabled={rating === 0 || submitting}

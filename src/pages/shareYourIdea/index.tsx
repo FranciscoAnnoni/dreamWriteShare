@@ -5,6 +5,7 @@ import Box from '../../base/box/box';
 import LittleText from '../../base/littleText/littleText';
 import DrawText from './components/drawText';
 import Button from '../../base/button/button';
+import Celebration from './components/celebration';
 import { AccessTime } from '@mui/icons-material';
 import { saveIdea } from '../../firebase/firestore';
 import { Alert, Snackbar } from '@mui/material';
@@ -12,7 +13,11 @@ import { isValidIdea, getValidationMessage } from './components/validator/ideaVa
 import { dailySubmissionManager } from './components/localStorage';
 import { getCachedUserCountry } from '../../utils/geolocation';
 
-const ShareYourIdea: React.FC = () => {
+interface ShareYourIdeaProps {
+  onPageChange?: (page: string) => void;
+}
+
+const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange }) => {
   const [ideaText, setIdeaText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -20,6 +25,7 @@ const ShareYourIdea: React.FC = () => {
   const [alertType, setAlertType] = useState<'success' | 'error' | 'info'>('success');
   const [canSubmit, setCanSubmit] = useState(true);
   const [userCountry, setUserCountry] = useState<string>('');
+  const [showCelebration, setShowCelebration] = useState(false);
 
   // Verificar estado al cargar el componente
   useEffect(() => {
@@ -92,10 +98,10 @@ const ShareYourIdea: React.FC = () => {
       
       // Éxito
       console.log('✅ Idea guardada exitosamente!');
-      setAlertMessage('Your idea was sent successfully! 🎉 Come back tomorrow for another one.');
-      setAlertType('success');
-      setShowAlert(true);
       setIdeaText(''); // Limpiar el input
+      
+      // Mostrar celebración en lugar de alert
+      setShowCelebration(true);
       
     } catch (error) {
       console.error('❌ Error enviando la idea:', error);
@@ -105,6 +111,24 @@ const ShareYourIdea: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleCelebrationComplete = () => {
+    setShowCelebration(false);
+  };
+
+  const handleNavigateToSeeIdeas = () => {
+    // Usar el mismo sistema de navegación que el SideMenu
+    if (onPageChange) {
+      onPageChange('seeOtherIdeas');
+    }
+    
+    // Hacer scroll a la sección "See Other Ideas" (segunda pantalla)
+    const targetPosition = window.innerHeight;
+    window.scrollTo({
+      top: targetPosition,
+      behavior: 'smooth'
+    });
   };
   return (
     <div className="share-your-idea" style={{flexDirection: 'column', gap: '2rem', marginTop: '-8rem', position: 'relative'}}>
@@ -184,6 +208,13 @@ const ShareYourIdea: React.FC = () => {
             {alertMessage}
           </Alert>
         </Snackbar>
+
+        {/* Celebration Component */}
+        <Celebration 
+          show={showCelebration}
+          onComplete={handleCelebrationComplete}
+          onNavigate={handleNavigateToSeeIdeas}
+        />
     </div>
   );
 };

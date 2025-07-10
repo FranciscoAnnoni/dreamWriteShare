@@ -17,7 +17,6 @@ const Card: React.FC<CardProps> = ({
   description,
   rating = 0,
   location,
-  date,
   sx,
   onClick,
   children
@@ -56,7 +55,7 @@ const Card: React.FC<CardProps> = ({
         {/* Footer con rating a la izquierda y location a la derecha */}
         <div className="card-footer">
           <div className="card-rating">
-            {rating > 0 && renderStars(rating)}
+            {renderStars(rating)}
           </div>
           <div className="card-location-container">
             {location && (

@@ -39,7 +39,6 @@ export interface UserFeedback {
   feedback: string;
   timestamp: Timestamp;
   userId?: string;
-  userCountry?: string;
 }
 
 export const saveIdea = async (ideaText: string, userId?: string, country?: string): Promise<string> => {
@@ -370,15 +369,13 @@ export const incrementIdeaViews = async (ideaId: string): Promise<void> => {
 // Función para enviar feedback del usuario
 export const submitUserFeedback = async (
   feedbackText: string, 
-  userId?: string, 
-  country?: string
+  userId?: string
 ): Promise<string> => {
   try {
     const docRef = await addDoc(collection(db, "feedback"), {
       feedback: feedbackText,
       timestamp: Timestamp.now(),
-      userId: userId || null,
-      userCountry: country || null
+      userId: userId || null
     });
     
     console.log("Feedback enviado con ID: ", docRef.id);

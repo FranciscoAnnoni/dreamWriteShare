@@ -1,8 +1,11 @@
 import React from 'react';
 import Box from '../../base/box/box';
 import TitleWithLogo from '../../components/titleWithLogo/titleWithLogo';
+import { useT } from '../../components/lenguajes';
 
 const AboutUs: React.FC = () => {
+  const t = useT();
+  
   return (
     <div className="about-us" style={{ 
       minHeight: '100vh', 
@@ -15,7 +18,7 @@ const AboutUs: React.FC = () => {
     }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <TitleWithLogo 
-          title="About Us"
+          title={t.aboutUs.title}
           logo={'ℹ️ '}
           logoType="light"
           gap={16}
@@ -28,9 +31,7 @@ const AboutUs: React.FC = () => {
           lineHeight: 1.6,
           marginBottom: '1.5rem'
         }}>
-          Its creator <strong>Francisco Annoni</strong>, is passionate about developing applications 
-          and making an impact on people's lives. Every line of code is designed to connect 
-          ideas and transform dreams into reality.
+          {t.aboutUs.creator.content}
         </p>
         
         <p style={{ 
@@ -39,7 +40,7 @@ const AboutUs: React.FC = () => {
           lineHeight: 1.6,
           marginBottom: '1.5rem'
         }}>
-          If you're interested in learning more about his work or getting in touch:
+          {t.aboutUs.inspiration.content}
         </p>
         
         <a 
@@ -67,7 +68,7 @@ const AboutUs: React.FC = () => {
             e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
           }}
         >
-          🌐 View Portfolio
+          🌐 {t.aboutUs.creator.portfolioButton}
         </a>
       </Box>
     </div>

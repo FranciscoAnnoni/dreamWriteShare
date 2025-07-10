@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { IconButton, Box } from '@mui/material';
+import { IconButton, Box, Menu, MenuItem, Typography } from '@mui/material';
 import { 
   DarkMode, 
   LightMode, 
   Share, 
-  Settings 
+  Settings,
+  Language
 } from '@mui/icons-material';
 import LetAiImprovement from '../LetAiImprovement/LetAiImprovement';
+import { useT, useLanguage } from '../lenguajes';
 import './TopIcons.css';
 
 interface TopIconsProps {
@@ -20,6 +22,10 @@ const TopIcons: React.FC<TopIconsProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
+  const [languageMenuAnchor, setLanguageMenuAnchor] = useState<null | HTMLElement>(null);
+  
+  const t = useT();
+  const { language, setLanguage } = useLanguage();
   
   useEffect(() => {
     let scrollTimer: NodeJS.Timeout;
@@ -42,24 +48,38 @@ const TopIcons: React.FC<TopIconsProps> = ({
       clearTimeout(scrollTimer);
     };
   }, []);
+  
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
         title: 'DreamWriteShare',
-        text: 'Check out this amazing idea sharing app!',
+        text: t.common.shareText,
         url: window.location.href,
       }).catch(console.error);
     } else {
       navigator.clipboard.writeText(window.location.href).then(() => {
-        alert('URL copied to clipboard!');
+        alert(t.common.urlCopied);
       }).catch(() => {
-        alert('Share feature not available');
+        alert(t.common.shareNotAvailable);
       });
     }
   };
 
   const handleSettings = () => {
     setShowFeedbackDialog(true);
+  };
+
+  const handleLanguageClick = (event: React.MouseEvent<HTMLElement>) => {
+    setLanguageMenuAnchor(event.currentTarget);
+  };
+
+  const handleLanguageClose = () => {
+    setLanguageMenuAnchor(null);
+  };
+
+  const handleLanguageChange = (newLanguage: 'en' | 'es') => {
+    setLanguage(newLanguage);
+    handleLanguageClose();
   };
 
   return (
@@ -69,18 +89,28 @@ const TopIcons: React.FC<TopIconsProps> = ({
         <IconButton
           className="top-icon"
           onClick={onDarkModeToggle}
-          aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-          title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          aria-label={isDarkMode ? t.topIcons.lightMode : t.topIcons.darkMode}
+          title={isDarkMode ? t.topIcons.lightMode : t.topIcons.darkMode}
         >
           {isDarkMode ? <LightMode /> : <DarkMode />}
+        </IconButton>
+
+        {/* Language Selector */}
+        <IconButton
+          className="top-icon"
+          onClick={handleLanguageClick}
+          aria-label={t.topIcons.language}
+          title={t.topIcons.language}
+        >
+          <Language />
         </IconButton>
 
         {/* Share Icon */}
         <IconButton
           className="top-icon"
           onClick={handleShare}
-          aria-label="Share"
-          title="Share"
+          aria-label={t.topIcons.share}
+          title={t.topIcons.share}
         >
           <Share />
         </IconButton>
@@ -89,12 +119,40 @@ const TopIcons: React.FC<TopIconsProps> = ({
         <IconButton
           className="top-icon"
           onClick={handleSettings}
-          aria-label="Settings"
-          title="Settings"
+          aria-label={t.topIcons.settings}
+          title={t.topIcons.settings}
         >
           <Settings />
         </IconButton>
       </Box>
+
+      {/* Language Menu */}
+      <Menu
+        anchorEl={languageMenuAnchor}
+        open={Boolean(languageMenuAnchor)}
+        onClose={handleLanguageClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <MenuItem 
+          onClick={() => handleLanguageChange('en')}
+          selected={language === 'en'}
+        >
+          <Typography>🇺🇸 {t.topIcons.english}</Typography>
+        </MenuItem>
+        <MenuItem 
+          onClick={() => handleLanguageChange('es')}
+          selected={language === 'es'}
+        >
+          <Typography>🇪🇸 {t.topIcons.spanish}</Typography>
+        </MenuItem>
+      </Menu>
 
       {/* Feedback Dialog */}
       <LetAiImprovement 

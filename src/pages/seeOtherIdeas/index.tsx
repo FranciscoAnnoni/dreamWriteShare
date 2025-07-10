@@ -6,22 +6,30 @@ import Loading from '../../components/Loading/Loading';
 import SelectDropdown, { type SelectOption } from '../../base/selectDropdown/selectDropdown';
 import CleanButton from '../../base/cleanButton/cleanButton';
 import VoteIdeas from './voteIdeas';
-import { getIdeasWithStars, type Idea } from '../../firebase/firestore';
+import { getIdeas, type Idea } from '../../firebase/firestore';
 import { Star } from '@mui/icons-material';
+import { useT } from '../../components/lenguajes';
 
-const SeeOtherIdeas: React.FC = () => {
+interface SeeOtherIdeasProps {
+  shouldRefresh?: boolean;
+  onRefreshed?: () => void;
+}
+
+const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, onRefreshed }) => {
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [originalIdeas, setOriginalIdeas] = useState<Idea[]>([]); // Para almacenar las ideas originales
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('stars');
   const [voteModalOpen, setVoteModalOpen] = useState(false);
-  const [hasIdeasWithStars, setHasIdeasWithStars] = useState(true);
+  const [hasIdeas, setHasIdeas] = useState(true);
+  
+  const t = useT();
 
   // Opciones del dropdown para ordenar
   const sortOptions: SelectOption[] = [
-    { value: 'stars', label: '⭐ Ordenar por estrellas' },
-    { value: 'date', label: '📅 Ordenar por fecha' },
-    { value: 'views', label: '👁️ Ordenar por vistas' }
+    { value: 'stars', label: t.seeIdeas.sorting.byStars },
+    { value: 'date', label: t.seeIdeas.sorting.byDate },
+    { value: 'views', label: t.seeIdeas.sorting.byViews }
   ];
 
   // Función para ordenar ideas en el frontend
@@ -41,15 +49,15 @@ const SeeOtherIdeas: React.FC = () => {
   useEffect(() => {
     const loadIdeas = async () => {
       try {
-        console.log('🔄 Cargando ideas con votos desde Firebase...');
-        const ideasFromFirebase = await getIdeasWithStars(20); // Obtener las últimas 20 ideas con votos
+        console.log('🔄 Cargando todas las ideas desde Firebase...');
+        const ideasFromFirebase = await getIdeas(20); // Obtener las últimas 20 ideas
         setOriginalIdeas(ideasFromFirebase); // Guardar las ideas originales
         setIdeas(sortIdeas(ideasFromFirebase, sortBy)); // Aplicar ordenamiento inicial
-        setHasIdeasWithStars(ideasFromFirebase.length > 0);
-        console.log('✅ Ideas con votos cargadas:', ideasFromFirebase.length);
+        setHasIdeas(ideasFromFirebase.length > 0);
+        console.log('✅ Ideas cargadas:', ideasFromFirebase.length);
       } catch (error) {
-        console.error('❌ Error cargando ideas con votos:', error);
-        setHasIdeasWithStars(false);
+        console.error('❌ Error cargando ideas:', error);
+        setHasIdeas(false);
       } finally {
         setLoading(false);
       }
@@ -67,15 +75,25 @@ const SeeOtherIdeas: React.FC = () => {
     }
   }, [sortBy, originalIdeas]);
 
+  // useEffect para manejar la actualización automática cuando se envía una nueva idea
+  useEffect(() => {
+    if (shouldRefresh) {
+      console.log('🔄 Actualizando ideas porque se envió una nueva...');
+      reloadIdeas().then(() => {
+        onRefreshed?.(); // Notificar que ya se actualizó
+      });
+    }
+  }, [shouldRefresh, onRefreshed]);
+
   // Función para recargar las ideas después de votar
   const reloadIdeas = async () => {
     setLoading(true);
     try {
       console.log('🔄 Recargando ideas después de votar...');
-      const ideasFromFirebase = await getIdeasWithStars(20);
+      const ideasFromFirebase = await getIdeas(20);
       setOriginalIdeas(ideasFromFirebase);
       setIdeas(sortIdeas(ideasFromFirebase, sortBy));
-      setHasIdeasWithStars(ideasFromFirebase.length > 0);
+      setHasIdeas(ideasFromFirebase.length > 0);
       console.log('✅ Ideas recargadas:', ideasFromFirebase.length);
     } catch (error) {
       console.error('❌ Error recargando ideas:', error);
@@ -95,32 +113,32 @@ const SeeOtherIdeas: React.FC = () => {
     }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
         <TitleWithLogo 
-          title="See other ideas"
+          title={t.seeIdeas.title}
           logo={'👀 '}
           logoType="light"
           gap={16}
         />
       </Box>
       
-      {!loading && !hasIdeasWithStars ? (
-        // Mostrar mensaje y botón para votar cuando no hay ideas con estrellas
+      {!loading && !hasIdeas ? (
+        // Mostrar mensaje y botón para votar cuando no hay ideas
         <Box sx={{ textAlign: 'center', maxWidth: '600px', marginBottom: '2rem' }}>
           <p style={{ 
             fontSize: '1.2rem', 
             color: 'var(--color-text-secondary)', 
             margin: '0 0 1rem 0'
           }}>
-            ¡No hay ideas votadas aún! 
+            {t.seeIdeas.noIdeasYet}
           </p>
           <p style={{ 
             fontSize: '1rem', 
             color: 'var(--color-text-secondary)', 
             margin: '0 0 2rem 0'
           }}>
-            Sé el primero en votar una idea para que aparezca aquí.
+            {t.seeIdeas.noIdeasSubtext}
           </p>
           <CleanButton
-            text="Votar Primera Idea"
+            text={t.seeIdeas.voteFirstIdea}
             icon={<Star />}
             iconPosition="left"
             onClick={() => setVoteModalOpen(true)}
@@ -129,7 +147,7 @@ const SeeOtherIdeas: React.FC = () => {
           />
         </Box>
       ) : (
-        // Mostrar contenido normal cuando hay ideas con estrellas
+        // Mostrar contenido normal cuando hay ideas
         <>
           <Box sx={{ textAlign: 'center', maxWidth: '600px', marginBottom: '2rem' }}>
             <p style={{ 
@@ -137,7 +155,7 @@ const SeeOtherIdeas: React.FC = () => {
               color: 'var(--color-text-secondary)', 
               margin: 0
             }}>
-              Discover amazing ideas from our community. Get inspired and see what others are creating.
+              {t.seeIdeas.subtitle}
             </p>
           </Box>
 
@@ -153,12 +171,12 @@ const SeeOtherIdeas: React.FC = () => {
               options={sortOptions}
               value={sortBy}
               onChange={setSortBy}
-              placeholder="⭐ Ordenar por estrellas"
+              placeholder={t.seeIdeas.sorting.byStars}
               className="ideas-sort-dropdown"
             />
             
             <CleanButton
-              text="Votar Más Ideas"
+              text={t.seeIdeas.voteMoreIdeas}
               icon={<Star />}
               iconPosition="left"
               onClick={() => setVoteModalOpen(true)}
@@ -170,7 +188,7 @@ const SeeOtherIdeas: React.FC = () => {
             <Loading 
               size="large" 
               color="orange" 
-              text="Cargando ideas votadas..." 
+              text={t.seeIdeas.loading} 
             />
           ) : (
             <LazyCards ideas={ideas} loading={false} onVoteSubmitted={reloadIdeas} />

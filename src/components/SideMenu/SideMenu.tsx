@@ -7,6 +7,7 @@ import {
   Box
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useT } from '../lenguajes';
 
 interface SideMenuProps {
   currentPage?: string;
@@ -58,15 +59,18 @@ const StyledListItemText = styled(ListItemText, {
   },
 }));
 
-const menuItems = [
-  { id: 'share', label: '💡 Share your idea', page: 'shareYourIdea' },
-  { id: 'see', label: '👀 See other ideas', page: 'seeOtherIdeas' },
-  { id: 'about', label: 'ℹ️ About Us', page: 'aboutUs' },
-];
-
 const SideMenu: React.FC<SideMenuProps> = ({ onPageChange }) => {
   const [scrollY, setScrollY] = useState(0);
   const [activePageFromScroll, setActivePageFromScroll] = useState('shareYourIdea');
+  
+  const t = useT();
+
+  // Crear menuItems dinámicamente usando las traducciones
+  const menuItems = [
+    { id: 'share', label: `💡 ${t.navigation.shareYourIdea}`, page: 'shareYourIdea' },
+    { id: 'see', label: `👀 ${t.navigation.seeOtherIdeas}`, page: 'seeOtherIdeas' },
+    { id: 'about', label: `ℹ️ ${t.navigation.aboutUs}`, page: 'aboutUs' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {

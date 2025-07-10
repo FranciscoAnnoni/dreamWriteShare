@@ -12,12 +12,14 @@ import { Alert, Snackbar } from '@mui/material';
 import { isValidIdea, getValidationMessage } from './components/validator/ideaValidator';
 import { dailySubmissionManager } from './components/localStorage';
 import { getCachedUserCountry } from '../../utils/geolocation';
+import { useT } from '../../components/lenguajes';
 
 interface ShareYourIdeaProps {
   onPageChange?: (page: string) => void;
+  onIdeaSubmitted?: () => void;
 }
 
-const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange }) => {
+const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmitted }) => {
   const [ideaText, setIdeaText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -26,6 +28,8 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange }) => {
   const [canSubmit, setCanSubmit] = useState(true);
   const [userCountry, setUserCountry] = useState<string>('');
   const [showCelebration, setShowCelebration] = useState(false);
+  
+  const t = useT();
 
   // Verificar estado al cargar el componente
   useEffect(() => {
@@ -54,7 +58,7 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange }) => {
 
     // Verificar si ya envió una idea hoy
     if (!dailySubmissionManager.canSubmitToday()) {
-      setAlertMessage('You have already shared an idea today. Come back tomorrow!');
+      setAlertMessage(t.shareIdea.validation.alreadySubmitted);
       setAlertType('error');
       setShowAlert(true);
       return;
@@ -62,14 +66,14 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange }) => {
     
     // Validaciones básicas
     if (!ideaText.trim()) {
-      setAlertMessage('Please write your idea before submitting');
+      setAlertMessage(t.shareIdea.validation.emptyIdea);
       setAlertType('error');
       setShowAlert(true);
       return;
     }
 
     if (ideaText.trim().length < 10) {
-      setAlertMessage('Your idea must be at least 10 characters long');
+      setAlertMessage(t.shareIdea.validation.tooShort);
       setAlertType('error');
       setShowAlert(true);
       return;
@@ -100,12 +104,15 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange }) => {
       console.log('✅ Idea guardada exitosamente!');
       setIdeaText(''); // Limpiar el input
       
+      // Notificar al componente padre que se envió una nueva idea
+      onIdeaSubmitted?.();
+      
       // Mostrar celebración en lugar de alert
       setShowCelebration(true);
       
     } catch (error) {
       console.error('❌ Error enviando la idea:', error);
-      setAlertMessage('There was an error sending your idea. Please try again.');
+      setAlertMessage(t.shareIdea.validation.errorSending);
       setAlertType('error');
       setShowAlert(true);
     } finally {
@@ -135,7 +142,7 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange }) => {
       <Box sx={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ transform: 'scale(1.1)' }}>
           <TitleWithLogo 
-            title="Share your idea"
+            title={t.shareIdea.title}
             logo={'💡 '}
             logoType="light"
             gap={16}
@@ -143,7 +150,9 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange }) => {
         </div>
       </Box> 
        
-        <LittleText sx={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>A simple idea can change everything. </LittleText>
+        <LittleText sx={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+          {t.shareIdea.subtitle}
+        </LittleText>
 
         <DrawText sx={{ 
           position: 'absolute',
@@ -155,7 +164,7 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange }) => {
 
         <div style={{ transform: 'scale(1.2)' }}>
           <InputText 
-            placeholder="¿Y si existiera una app que...?"
+            placeholder={t.shareIdea.placeholder}
             value={ideaText}
             onChange={setIdeaText}
             disabled={!canSubmit}
@@ -178,8 +187,8 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange }) => {
           iconPosition="left"
         >
           {canSubmit 
-            ? "You can share one idea per day" 
-            : "You've shared your idea for today. Come back tomorrow!"}
+            ? t.shareIdea.dailyLimit 
+            : t.shareIdea.dailyLimitReached}
         </LittleText>
 
         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '5rem' }}>
@@ -189,7 +198,7 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange }) => {
             onClick={handleSubmitIdea}
             disabled={isLoading || !canSubmit}
           >
-            {isLoading ? 'Sending...' : canSubmit ? 'Send Idea' : 'Come back tomorrow'}
+            {isLoading ? t.shareIdea.sendingButton : canSubmit ? t.shareIdea.sendButton : t.shareIdea.comeBackTomorrow}
           </Button>
         </Box>
 

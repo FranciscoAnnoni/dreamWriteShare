@@ -45,12 +45,8 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false, onVoteSub
   
   // Función para obtener rating de la idea
   const getIdeaRating = (idea: Idea) => {
-    // Si la idea tiene promedio de estrellas, usarlo
-    if (idea.averageStars !== undefined && idea.averageStars > 0) {
-      return idea.averageStars;
-    }
-    // Si no tiene votos, no mostrar rating
-    return 0;
+    // Siempre devolver el rating, incluso si es 0 (para mostrar estrellas vacías)
+    return idea.averageStars || 0;
   };
   
   // Función para obtener país consistente por idea

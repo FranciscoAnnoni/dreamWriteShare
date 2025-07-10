@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Box, Modal, IconButton, TextField } from '@mui/material';
-import { Close, Send, Lightbulb } from '@mui/icons-material';
+import { Close, Send } from '@mui/icons-material';
 import CleanButton from '../../base/cleanButton/cleanButton';
 import Loading from '../Loading/Loading';
 import { submitUserFeedback } from '../../firebase/firestore';
-import { getUserCountry } from '../../utils/geolocation';
 
 interface LetAiImprovementProps {
   open: boolean;
@@ -21,11 +20,8 @@ const LetAiImprovement: React.FC<LetAiImprovementProps> = ({ open, onClose }) =>
 
     setSubmitting(true);
     try {
-      // Obtener país del usuario
-      const userCountry = await getUserCountry();
-      
       // Enviar feedback a Firebase
-      await submitUserFeedback(feedback, undefined, userCountry);
+      await submitUserFeedback(feedback);
       
       setSubmitted(true);
       setTimeout(() => {

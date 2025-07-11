@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '../../base/box/box';
 import TitleWithLogo from '../../components/titleWithLogo/titleWithLogo';
-import { useT } from '../../components/lenguajes';
+import { useT } from '../../components/lenguajes/LanguageContext';
 
 const AboutUs: React.FC = () => {
   const t = useT();

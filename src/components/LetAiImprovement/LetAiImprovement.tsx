@@ -4,7 +4,7 @@ import { Close, Send } from '@mui/icons-material';
 import CleanButton from '../../base/cleanButton/cleanButton';
 import Loading from '../Loading/Loading';
 import { submitUserFeedback } from '../../firebase/firestore';
-import { useT } from '../lenguajes';
+import { useT } from '../lenguajes/LanguageContext';
 
 interface LetAiImprovementProps {
   open: boolean;
@@ -23,7 +23,6 @@ const LetAiImprovement: React.FC<LetAiImprovementProps> = ({ open, onClose }) =>
 
     setSubmitting(true);
     try {
-      // Enviar feedback a Firebase
       await submitUserFeedback(feedback);
       
       setSubmitted(true);
@@ -73,7 +72,6 @@ const LetAiImprovement: React.FC<LetAiImprovementProps> = ({ open, onClose }) =>
           outline: 'none'
         }}
       >
-        {/* Header */}
         <Box
           sx={{
             display: 'flex',
@@ -110,7 +108,6 @@ const LetAiImprovement: React.FC<LetAiImprovementProps> = ({ open, onClose }) =>
           </IconButton>
         </Box>
 
-        {/* Content */}
         <Box sx={{ p: 3 }}>
           {submitted ? (
             <Box sx={{ textAlign: 'center', py: 3 }}>
@@ -178,7 +175,7 @@ const LetAiImprovement: React.FC<LetAiImprovementProps> = ({ open, onClose }) =>
                 }}
               />
 
-              <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+              <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between' }}>
                 <CleanButton
                   text={t.improvement.cancel}
                   onClick={handleClose}

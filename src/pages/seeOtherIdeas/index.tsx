@@ -8,7 +8,7 @@ import CleanButton from '../../base/cleanButton/cleanButton';
 import VoteIdeas from './voteIdeas';
 import { getIdeas, type Idea } from '../../firebase/firestore';
 import { Star } from '@mui/icons-material';
-import { useT } from '../../components/lenguajes';
+import { useT } from '../../components/lenguajes/LanguageContext';
 
 interface SeeOtherIdeasProps {
   shouldRefresh?: boolean;
@@ -17,7 +17,7 @@ interface SeeOtherIdeasProps {
 
 const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, onRefreshed }) => {
   const [ideas, setIdeas] = useState<Idea[]>([]);
-  const [originalIdeas, setOriginalIdeas] = useState<Idea[]>([]); // Para almacenar las ideas originales
+  const [originalIdeas, setOriginalIdeas] = useState<Idea[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('stars');
   const [voteModalOpen, setVoteModalOpen] = useState(false);
@@ -25,14 +25,12 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
   
   const t = useT();
 
-  // Opciones del dropdown para ordenar
   const sortOptions: SelectOption[] = [
     { value: 'stars', label: t.seeIdeas.sorting.byStars },
     { value: 'date', label: t.seeIdeas.sorting.byDate },
     { value: 'views', label: t.seeIdeas.sorting.byViews }
   ];
 
-  // Función para ordenar ideas en el frontend
   const sortIdeas = (ideas: Idea[], sortBy: string): Idea[] => {
     switch (sortBy) {
       case 'stars':
@@ -50,9 +48,9 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
     const loadIdeas = async () => {
       try {
         console.log('🔄 Cargando todas las ideas desde Firebase...');
-        const ideasFromFirebase = await getIdeas(20); // Obtener las últimas 20 ideas
-        setOriginalIdeas(ideasFromFirebase); // Guardar las ideas originales
-        setIdeas(sortIdeas(ideasFromFirebase, sortBy)); // Aplicar ordenamiento inicial
+        const ideasFromFirebase = await getIdeas(20);
+        setOriginalIdeas(ideasFromFirebase);
+        setIdeas(sortIdeas(ideasFromFirebase, sortBy));
         setHasIdeas(ideasFromFirebase.length > 0);
         console.log('✅ Ideas cargadas:', ideasFromFirebase.length);
       } catch (error) {
@@ -66,7 +64,6 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
     loadIdeas();
   }, []);
 
-  // useEffect para manejar el cambio de ordenamiento
   useEffect(() => {
     if (originalIdeas.length > 0) {
       console.log('🔄 Aplicando ordenamiento:', sortBy);
@@ -75,17 +72,15 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
     }
   }, [sortBy, originalIdeas]);
 
-  // useEffect para manejar la actualización automática cuando se envía una nueva idea
   useEffect(() => {
     if (shouldRefresh) {
       console.log('🔄 Actualizando ideas porque se envió una nueva...');
       reloadIdeas().then(() => {
-        onRefreshed?.(); // Notificar que ya se actualizó
+        onRefreshed?.();
       });
     }
   }, [shouldRefresh, onRefreshed]);
 
-  // Función para recargar las ideas después de votar
   const reloadIdeas = async () => {
     setLoading(true);
     try {
@@ -121,7 +116,6 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
       </Box>
       
       {!loading && !hasIdeas ? (
-        // Mostrar mensaje y botón para votar cuando no hay ideas
         <Box sx={{ textAlign: 'center', maxWidth: '600px', marginBottom: '2rem' }}>
           <p style={{ 
             fontSize: '1.2rem', 
@@ -147,7 +141,6 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
           />
         </Box>
       ) : (
-        // Mostrar contenido normal cuando hay ideas
         <>
           <Box sx={{ textAlign: 'center', maxWidth: '600px', marginBottom: '2rem' }}>
             <p style={{ 
@@ -164,8 +157,8 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
             marginBottom: '14px',
             alignItems: 'center',
             justifyContent: 'space-between',
-            width: '720px', // Mismo ancho que LazyCards
-            padding: '0 20px' // Mismo padding interno que LazyCards
+            width: '720px',
+            padding: '0 20px'
           }}>
             <SelectDropdown
               options={sortOptions}
@@ -196,14 +189,13 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
         </>
       )}
       
-      {/* Modal de votación */}
       <VoteIdeas
         open={voteModalOpen}
         onClose={() => setVoteModalOpen(false)}
         onVoteSubmitted={() => {
           console.log('Voto enviado exitosamente!');
           setVoteModalOpen(false);
-          reloadIdeas(); // Recargar ideas después de votar
+          reloadIdeas();
         }}
       />
     </div>

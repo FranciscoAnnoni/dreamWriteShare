@@ -7,7 +7,7 @@ import {
   Box
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useT } from '../lenguajes';
+import { useT } from '../lenguajes/LanguageContext';
 
 interface SideMenuProps {
   currentPage?: string;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconButton } from '@mui/material';
 import { Language } from '@mui/icons-material';
-import { useLanguage } from '../lenguajes';
+import { useLanguage } from './LanguageContext';
 
 interface LanguageSwitcherProps {
   size?: 'small' | 'medium' | 'large';

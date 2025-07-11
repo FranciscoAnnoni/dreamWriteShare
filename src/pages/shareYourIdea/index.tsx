@@ -12,7 +12,7 @@ import { Alert, Snackbar } from '@mui/material';
 import { isValidIdea, getValidationMessage } from './components/validator/ideaValidator';
 import { dailySubmissionManager } from './components/localStorage';
 import { getCachedUserCountry } from '../../utils/geolocation';
-import { useT } from '../../components/lenguajes';
+import { useT } from '../../components/lenguajes/LanguageContext';
 
 interface ShareYourIdeaProps {
   onPageChange?: (page: string) => void;
@@ -31,12 +31,10 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
   
   const t = useT();
 
-  // Verificar estado al cargar el componente
   useEffect(() => {
     const status = dailySubmissionManager.getSubmissionStatus();
     setCanSubmit(status.canSubmit);
     
-    // Obtener país del usuario
     const loadUserCountry = async () => {
       try {
         const country = await getCachedUserCountry();
@@ -56,7 +54,6 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
     
     const userId = dailySubmissionManager.getCurrentUserId();
 
-    // Verificar si ya envió una idea hoy
     if (!dailySubmissionManager.canSubmitToday()) {
       setAlertMessage(t.shareIdea.validation.alreadySubmitted);
       setAlertType('error');
@@ -64,7 +61,6 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
       return;
     }
     
-    // Validaciones básicas
     if (!ideaText.trim()) {
       setAlertMessage(t.shareIdea.validation.emptyIdea);
       setAlertType('error');
@@ -79,7 +75,6 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
       return;
     }
 
-    // Validar que el texto tenga sentido
     if (!isValidIdea(ideaText)) {
       setAlertMessage(getValidationMessage(ideaText));
       setAlertType('error');
@@ -92,22 +87,17 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
     try {
       console.log('👤 User ID:', userId);
       
-      // Guardar la idea
       console.log('💾 Guardando idea en Firebase...');
       await saveIdea(ideaText.trim(), userId, userCountry);
       
-      // Marcar como enviado hoy
       dailySubmissionManager.markAsSubmittedToday();
       setCanSubmit(false);
       
-      // Éxito
       console.log('✅ Idea guardada exitosamente!');
-      setIdeaText(''); // Limpiar el input
+      setIdeaText('');
       
-      // Notificar al componente padre que se envió una nueva idea
       onIdeaSubmitted?.();
       
-      // Mostrar celebración en lugar de alert
       setShowCelebration(true);
       
     } catch (error) {
@@ -125,12 +115,10 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
   };
 
   const handleNavigateToSeeIdeas = () => {
-    // Usar el mismo sistema de navegación que el SideMenu
     if (onPageChange) {
       onPageChange('seeOtherIdeas');
     }
     
-    // Hacer scroll a la sección "See Other Ideas" (segunda pantalla)
     const targetPosition = window.innerHeight;
     window.scrollTo({
       top: targetPosition,
@@ -202,7 +190,6 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
           </Button>
         </Box>
 
-        {/* Alert/Notification */}
         <Snackbar 
           open={showAlert} 
           autoHideDuration={6000} 
@@ -218,7 +205,6 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
           </Alert>
         </Snackbar>
 
-        {/* Celebration Component */}
         <Celebration 
           show={showCelebration}
           onComplete={handleCelebrationComplete}

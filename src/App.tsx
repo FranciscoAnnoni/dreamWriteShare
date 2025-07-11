@@ -6,17 +6,15 @@ import TopIcons from './components/TopIcons/TopIcons';
 import ShareYourIdea from './pages/shareYourIdea';
 import SeeOtherIdeas from './pages/seeOtherIdeas';
 import AboutUs from './pages/aboutUs';
-import { LanguageProvider } from './components/lenguajes';
+import { LanguageProvider } from './components/lenguajes/LanguageContext';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('shareYourIdea');
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Initialize dark mode based on system preference
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
   const [shouldRefreshIdeas, setShouldRefreshIdeas] = useState(false);
 
-  // Apply dark mode class on mount and when state changes
   useEffect(() => {
     document.documentElement.classList.toggle('dark-mode', isDarkMode);
   }, [isDarkMode]);
@@ -29,13 +27,11 @@ function App() {
     setIsDarkMode(!isDarkMode);
   };
 
-  // Función para manejar cuando se envía una nueva idea
   const handleIdeaSubmitted = () => {
     console.log('🔄 Nueva idea enviada, actualizando lista...');
     setShouldRefreshIdeas(true);
   };
 
-  // Función para resetear el estado de refresh
   const handleIdeasRefreshed = () => {
     setShouldRefreshIdeas(false);
   };

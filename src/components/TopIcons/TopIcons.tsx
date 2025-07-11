@@ -8,7 +8,7 @@ import {
   Language
 } from '@mui/icons-material';
 import LetAiImprovement from '../LetAiImprovement/LetAiImprovement';
-import { useT, useLanguage } from '../lenguajes';
+import { useT, useLanguage } from '../lenguajes/LanguageContext';
 import './TopIcons.css';
 
 interface TopIconsProps {
@@ -31,10 +31,8 @@ const TopIcons: React.FC<TopIconsProps> = ({
     let scrollTimer: NodeJS.Timeout;
     
     const handleScroll = () => {
-      // Hide icons when scrolling
       setIsVisible(false);
       
-      // Show icons again after scrolling stops
       clearTimeout(scrollTimer);
       scrollTimer = setTimeout(() => {
         setIsVisible(true);
@@ -85,7 +83,7 @@ const TopIcons: React.FC<TopIconsProps> = ({
   return (
     <>
       <Box className={`top-icons-container ${!isVisible ? 'hidden' : ''}`}>
-        {/* Dark/Light Mode Toggle */}
+
         <IconButton
           className="top-icon"
           onClick={onDarkModeToggle}
@@ -95,7 +93,6 @@ const TopIcons: React.FC<TopIconsProps> = ({
           {isDarkMode ? <LightMode /> : <DarkMode />}
         </IconButton>
 
-        {/* Language Selector */}
         <IconButton
           className="top-icon"
           onClick={handleLanguageClick}
@@ -105,7 +102,6 @@ const TopIcons: React.FC<TopIconsProps> = ({
           <Language />
         </IconButton>
 
-        {/* Share Icon */}
         <IconButton
           className="top-icon"
           onClick={handleShare}
@@ -115,7 +111,6 @@ const TopIcons: React.FC<TopIconsProps> = ({
           <Share />
         </IconButton>
 
-        {/* Settings Icon */}
         <IconButton
           className="top-icon"
           onClick={handleSettings}
@@ -126,7 +121,6 @@ const TopIcons: React.FC<TopIconsProps> = ({
         </IconButton>
       </Box>
 
-      {/* Language Menu */}
       <Menu
         anchorEl={languageMenuAnchor}
         open={Boolean(languageMenuAnchor)}

@@ -102,6 +102,18 @@ export const spanishTranslations: Translations = {
     thankYouSubtext: 'Tus sugerencias nos ayudan a hacer la app mejor para todos.',
   },
 
+  // Componente LetAiImprovement
+  improvement: {
+    title: 'Ayúdanos a Mejorar',
+    subtitle: '¡Nos encantaría escuchar tus ideas! Comparte cualquier sugerencia, problema o idea para ayudarnos a mejorar la experiencia de la app.',
+    placeholder: 'Cuéntanos qué piensas... (ej: nuevas funciones, mejoras, errores)',
+    sendButton: 'Enviar Comentario',
+    sending: 'Enviando...',
+    cancel: 'Cancelar',
+    thankYou: '¡Gracias por tu comentario!',
+    thankYouSubtext: 'Tus sugerencias nos ayudan a hacer la app mejor para todos.',
+  },
+
   // Celebración
   celebration: {
     title: '¡Idea Compartida Exitosamente!',

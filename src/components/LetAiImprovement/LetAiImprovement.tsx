@@ -4,6 +4,7 @@ import { Close, Send } from '@mui/icons-material';
 import CleanButton from '../../base/cleanButton/cleanButton';
 import Loading from '../Loading/Loading';
 import { submitUserFeedback } from '../../firebase/firestore';
+import { useT } from '../lenguajes';
 
 interface LetAiImprovementProps {
   open: boolean;
@@ -14,6 +15,8 @@ const LetAiImprovement: React.FC<LetAiImprovementProps> = ({ open, onClose }) =>
   const [feedback, setFeedback] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  
+  const t = useT();
 
   const handleSubmit = async () => {
     if (!feedback.trim()) return;
@@ -82,14 +85,14 @@ const LetAiImprovement: React.FC<LetAiImprovementProps> = ({ open, onClose }) =>
           }}
         >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <span style={{ fontSize: '1.5rem' }}>⚠️</span>
+            <span style={{ fontSize: '1.5rem' }}>🤝</span>
             <h2 style={{
                 margin: 0,
                 fontSize: '1.3rem',
                 fontWeight: 600,
                 color: 'var(--color-text-primary)'
             }}>
-                Help Us Improve
+                {t.improvement.title}
             </h2>
         </Box>
           <IconButton
@@ -117,14 +120,14 @@ const LetAiImprovement: React.FC<LetAiImprovementProps> = ({ open, onClose }) =>
                 color: 'var(--color-text-primary)',
                 fontSize: '1.2rem'
               }}>
-                Thank you for your feedback!
+                {t.improvement.thankYou}
               </h3>
               <p style={{
                 margin: 0,
                 color: 'var(--color-text-secondary)',
                 fontSize: '0.9rem'
               }}>
-                Your suggestions help us make the app better for everyone.
+                {t.improvement.thankYouSubtext}
               </p>
             </Box>
           ) : (
@@ -135,15 +138,14 @@ const LetAiImprovement: React.FC<LetAiImprovementProps> = ({ open, onClose }) =>
                 fontSize: '0.95rem',
                 lineHeight: 1.5
               }}>
-                We'd love to hear your thoughts! Share any suggestions, issues, 
-                or ideas to help us improve the app experience.
+                {t.improvement.subtitle}
               </p>
 
               <TextField
                 multiline
                 rows={4}
                 fullWidth
-                placeholder="Tell us what you think... (e.g., new features, improvements, bugs)"
+                placeholder={t.improvement.placeholder}
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
                 disabled={submitting}
@@ -178,17 +180,17 @@ const LetAiImprovement: React.FC<LetAiImprovementProps> = ({ open, onClose }) =>
 
               <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
                 <CleanButton
-                  text="Cancel"
+                  text={t.improvement.cancel}
                   onClick={handleClose}
                   size="small"
                   disabled={submitting}
                 />
                 
                 {submitting ? (
-                  <Loading size="small" color="orange" text="Sending..." />
+                  <Loading size="small" color="orange" text={t.improvement.sending} />
                 ) : (
                   <CleanButton
-                    text="Send Feedback"
+                    text={t.improvement.sendButton}
                     icon={<Send sx={{ fontSize: '1rem' }} />}
                     iconPosition="right"
                     onClick={handleSubmit}

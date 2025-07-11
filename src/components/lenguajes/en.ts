@@ -102,6 +102,18 @@ export const englishTranslations: Translations = {
     thankYouSubtext: 'Your suggestions help us make the app better for everyone.',
   },
 
+  // Componente LetAiImprovement
+  improvement: {
+    title: 'Help Us Improve',
+    subtitle: "We'd love to hear your thoughts! Share any suggestions, issues, or ideas to help us improve the app experience.",
+    placeholder: 'Tell us what you think... (e.g., new features, improvements, bugs)',
+    sendButton: 'Send Feedback',
+    sending: 'Sending...',
+    cancel: 'Cancel',
+    thankYou: 'Thank you for your feedback!',
+    thankYouSubtext: 'Your suggestions help us make the app better for everyone.',
+  },
+
   // Celebración
   celebration: {
     title: 'Idea Shared Successfully!',

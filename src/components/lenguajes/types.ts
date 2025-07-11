@@ -103,6 +103,18 @@ export interface Translations {
     thankYouSubtext: string;
   };
 
+  // Componente LetAiImprovement
+  improvement: {
+    title: string;
+    subtitle: string;
+    placeholder: string;
+    sendButton: string;
+    sending: string;
+    cancel: string;
+    thankYou: string;
+    thankYouSubtext: string;
+  };
+
   // Celebración
   celebration: {
     title: string;

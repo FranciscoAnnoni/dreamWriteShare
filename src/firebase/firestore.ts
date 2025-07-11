@@ -114,32 +114,6 @@ export const hasUserSubmittedToday = async (userId: string): Promise<boolean> =>
   }
 };
 
-// Función para probar si el índice de Firebase está listo
-export const testFirebaseIndex = async (): Promise<boolean> => {
-  try {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const todayTimestamp = Timestamp.fromDate(today);
-    
-    // Hacer una consulta simple con un userId de prueba
-    const q = query(
-      collection(db, "ideas"),
-      where("userId", "==", "test-user"),
-      where("createdAt", ">=", todayTimestamp)
-    );
-    
-    await getDocs(q);
-    console.log("✅ Firebase index is ready!");
-    return true;
-  } catch (error: any) {
-    if (error?.code === 'failed-precondition' && error?.message?.includes('index')) {
-      console.log("🔄 Firebase index is still building...");
-      return false;
-    }
-    console.warn("Unexpected error testing Firebase index:", error);
-    return false;
-  }
-};
 
 // Función para obtener ideas sin votos (totalVotes = 0)
 export const getIdeasWithoutVotes = async (limitCount: number = 10): Promise<Idea[]> => {

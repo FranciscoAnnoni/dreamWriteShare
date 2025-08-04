@@ -86,8 +86,9 @@ export const spanishTranslations: Translations = {
     creator: {
       title: '👨‍💻 Conoce al Creador',
       content: '¡Hola! Soy Francisco Annoni, un desarrollador apasionado que cree en el poder de las ideas para cambiar el mundo. Esta plataforma nació de mi deseo de crear un espacio donde la creatividad fluya libremente y cada voz pueda ser escuchada. Me encanta construir herramientas que conecten a las personas y liberen su potencial.',
-      portfolioButton: 'Ver Portafolio',
-    },
+      portfolioButton: 'Ver Portfolio',
+      donateButton: 'Apoyar el Desarrollo'
+    }
   },
 
   // Feedback/Help

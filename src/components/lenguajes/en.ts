@@ -86,8 +86,9 @@ export const englishTranslations: Translations = {
     creator: {
       title: '👨‍💻 Meet the Creator',
       content: 'Hi! I\'m Francisco Annoni, a passionate developer who believes in the power of ideas to change the world. This platform was born from my desire to create a space where creativity flows freely and every voice can be heard. I love building tools that connect people and unleash their potential.',
-      portfolioButton: 'View Portfolio',
-    },
+      portfolioButton: 'Visit Portfolio',
+      donateButton: 'Support Development'
+    }
   },
 
   // Feedback/Help

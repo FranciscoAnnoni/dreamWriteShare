@@ -88,6 +88,7 @@ export interface Translations {
       title: string;
       content: string;
       portfolioButton: string;
+      donateButton: string;
     };
   };
 

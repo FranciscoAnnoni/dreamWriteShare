@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { IconButton, Box, Menu, MenuItem, Typography } from '@mui/material';
 import { 
   DarkMode, 
-  LightMode, 
-  Share, 
-  Settings,
-  Language
+  LightMode,
+  Language,
+  Chat,
+  IosShare
 } from '@mui/icons-material';
 import LetAiImprovement from '../LetAiImprovement/LetAiImprovement';
 import { useT, useLanguage } from '../lenguajes/LanguageContext';
@@ -82,13 +82,27 @@ const TopIcons: React.FC<TopIconsProps> = ({
 
   return (
     <>
-      <Box className={`top-icons-container ${!isVisible ? 'hidden' : ''}`}>
+      <Box 
+        className={`top-icons-container ${!isVisible ? 'hidden' : ''}`}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}>
 
         <IconButton
           className="top-icon"
           onClick={onDarkModeToggle}
           aria-label={isDarkMode ? t.topIcons.lightMode : t.topIcons.darkMode}
           title={isDarkMode ? t.topIcons.lightMode : t.topIcons.darkMode}
+          sx={{
+            width: '36px',
+            height: '36px',
+            '& svg': { fontSize: '20px' },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
         >
           {isDarkMode ? <LightMode /> : <DarkMode />}
         </IconButton>
@@ -98,17 +112,16 @@ const TopIcons: React.FC<TopIconsProps> = ({
           onClick={handleLanguageClick}
           aria-label={t.topIcons.language}
           title={t.topIcons.language}
+          sx={{
+            width: '36px',
+            height: '36px',
+            '& svg': { fontSize: '20px' },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
         >
           <Language />
-        </IconButton>
-
-        <IconButton
-          className="top-icon"
-          onClick={handleShare}
-          aria-label={t.topIcons.share}
-          title={t.topIcons.share}
-        >
-          <Share />
         </IconButton>
 
         <IconButton
@@ -116,8 +129,39 @@ const TopIcons: React.FC<TopIconsProps> = ({
           onClick={handleSettings}
           aria-label={t.topIcons.settings}
           title={t.topIcons.settings}
+          sx={{
+            width: '36px',
+            height: '36px',
+            '& svg': { 
+              fontSize: '20px',
+              marginTop: '4px',
+            },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
         >
-          <Settings />
+          <Chat />
+        </IconButton>
+
+        <IconButton
+          className="top-icon"
+          onClick={handleShare}
+          aria-label={t.topIcons.share}
+          title={t.topIcons.share}
+          sx={{
+            width: '36px',
+            height: '36px',
+            '& svg': { 
+              fontSize: '20px',
+              marginBottom: '2px' // Ajuste específico para el ícono de IosShare
+            },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <IosShare />
         </IconButton>
       </Box>
 

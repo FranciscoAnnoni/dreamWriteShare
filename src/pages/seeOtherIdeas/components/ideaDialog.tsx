@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Modal, IconButton } from '@mui/material';
-import { Close, Star } from '@mui/icons-material';
+import { Close, Star, IosShare } from '@mui/icons-material';
 import CleanButton from '../../../base/cleanButton/cleanButton';
 import Loading from '../../../components/Loading/Loading';
 import { hasUserVotedIdea, voteIdea, getUserVoteForIdea, type Idea, type IdeaVote } from '../../../firebase/firestore';
@@ -28,7 +28,6 @@ const IdeaDialog: React.FC<IdeaDialogProps> = ({
   const [selectedStars, setSelectedStars] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 
-  // Generar userId consistente (en producción usar autenticación real)
   const getUserId = () => {
     let userId = localStorage.getItem('dreamWriteShare_userId');
     if (!userId) {
@@ -199,18 +198,68 @@ const IdeaDialog: React.FC<IdeaDialogProps> = ({
           }}>
             💡 Idea Detail
           </h2>
-          <IconButton
-            onClick={onClose}
-            sx={{
-              color: 'var(--color-text-secondary)',
-              '&:hover': {
-                backgroundColor: 'var(--color-hover)',
-                color: 'var(--color-text-primary)'
-              }
-            }}
-          >
-            <Close />
-          </IconButton>
+          <Box sx={{ 
+            display: 'flex', 
+            gap: 1,
+            height: '40px',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <IconButton
+              onClick={() => {
+                if (navigator.share) {
+                  navigator.share({
+                    title: 'Idea Compartida',
+                    text: idea.idea,
+                    url: window.location.href
+                  }).catch((error) => console.log('Error sharing:', error));
+                } else {
+                  navigator.clipboard.writeText(idea.idea)
+                    .then(() => alert('Idea copiada al portapapeles!'))
+                    .catch(err => console.error('Error al copiar:', err));
+                }
+              }}
+              sx={{
+                color: 'var(--color-text-secondary)',
+                padding: '8px',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                '& svg': {
+                  fontSize: '18px'
+                },
+                '&:hover': {
+                  backgroundColor: 'var(--color-hover)',
+                  color: 'var(--color-text-primary)'
+                }
+              }}
+            >
+              <IosShare />
+            </IconButton>
+            <IconButton
+              onClick={onClose}
+              sx={{
+                color: 'var(--color-text-secondary)',
+                padding: '8px',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                '& svg': {
+                  fontSize: '18px'
+                },
+                '&:hover': {
+                  backgroundColor: 'var(--color-hover)',
+                  color: 'var(--color-text-primary)'
+                }
+              }}
+            >
+              <Close />
+            </IconButton>
+          </Box>
         </Box>
 
         <Box sx={{ p: 3, overflowY: 'auto', maxHeight: 'calc(80vh - 100px)' }}>

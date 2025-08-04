@@ -43,33 +43,63 @@ const AboutUs: React.FC = () => {
           {t.aboutUs.inspiration.content}
         </p>
         
-        <a 
-          href="https://francisco-annoni.empressaria.com.ar/" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          style={{
-            display: 'inline-block',
-            padding: '12px 24px',
-            backgroundColor: 'var(--color-primary)',
-            color: 'var(--color-text-primary)',
-            textDecoration: 'none',
-            borderRadius: '8px',
-            fontSize: '1rem',
-            fontWeight: 500,
-            transition: 'all 0.3s ease',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
-          }}
-        >
-          🌐 {t.aboutUs.creator.portfolioButton}
-        </a>
+        <Box sx={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+          <a 
+            href="https://francisco-annoni.empressaria.com.ar/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-block',
+              padding: '12px 24px',
+              backgroundColor: 'var(--color-primary)',
+              color: 'var(--color-text-primary)',
+              textDecoration: 'none',
+              borderRadius: '8px',
+              fontSize: '1rem',
+              fontWeight: 500,
+              transition: 'all 0.3s ease',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+            }}
+          >
+            🌐 {t.aboutUs.creator.portfolioButton}
+          </a>
+
+          <a 
+            href="https://paypal.me/FranciscoAnnoni?country.x=AR&locale.x=es_XC" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-block',
+              padding: '12px 24px',
+              backgroundColor: '#ffbe33', // Más amarillo con toque naranja
+              color: '#000000',
+              textDecoration: 'none',
+              borderRadius: '8px',
+              fontSize: '1rem',
+              fontWeight: 500,
+              transition: 'all 0.3s ease',
+              boxShadow: '0 2px 8px rgba(255, 190, 51, 0.3)'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+            }}
+          >
+            <span style={{ fontSize: '1.2rem', marginRight: '4px' }}>☕</span> {t.aboutUs.creator.donateButton}
+          </a>
+        </Box>
       </Box>
     </div>
   );

@@ -11,6 +11,10 @@ import { LanguageProvider } from './components/lenguajes/LanguageContext';
 function App() {
   const [currentPage, setCurrentPage] = useState('shareYourIdea');
   const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem('dreamWriteShare_theme');
+    if (savedTheme !== null) {
+      return savedTheme === 'dark';
+    }
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
   const [shouldRefreshIdeas, setShouldRefreshIdeas] = useState(false);
@@ -24,7 +28,9 @@ function App() {
   };
 
   const handleDarkModeToggle = () => {
-    setIsDarkMode(!isDarkMode);
+    const newTheme = !isDarkMode;
+    setIsDarkMode(newTheme);
+    localStorage.setItem('dreamWriteShare_theme', newTheme ? 'dark' : 'light');
   };
 
   const handleIdeaSubmitted = () => {

@@ -81,12 +81,12 @@ export const spanishTranslations: Translations = {
     title: 'Acerca de Nosotros',
     inspiration: {
       title: '✨ Nuestra Visión',
-      content: 'Creemos que toda gran innovación comienza con una idea simple. DreamWriteShare es un espacio donde la creatividad se encuentra con la comunidad, donde tus pensamientos pueden inspirar a otros y donde la imaginación colectiva construye el futuro. A veces los conceptos más revolucionarios provienen de los lugares más inesperados.',
-    },
+      content: 'En DreamWriteShare creemos que las grandes ideas nacen de pensamientos simples. Aquí, la creatividad y la comunidad se unen para inspirar el cambio.',
+   },
     creator: {
       title: '👨‍💻 Conoce al Creador',
-      content: '¡Hola! Soy Francisco Annoni, un desarrollador apasionado que cree en el poder de las ideas para cambiar el mundo. Esta plataforma nació de mi deseo de crear un espacio donde la creatividad fluya libremente y cada voz pueda ser escuchada. Me encanta construir herramientas que conecten a las personas y liberen su potencial.',
-      portfolioButton: 'Ver Portfolio',
+      content: '¡Hola! Soy Francisco Annoni, un desarrollador que cree en el poder de las ideas para transformar. DreamWriteShare nació como un espacio para compartir creatividad y conectar personas. Si querés apoyar mi trabajo, cualquier aporte es bienvenido.',
+     portfolioButton: 'Ver Portfolio',
       donateButton: 'Apoyar el Desarrollo'
     }
   },

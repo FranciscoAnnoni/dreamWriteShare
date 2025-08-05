@@ -31,7 +31,8 @@ const AboutUs: React.FC = () => {
           lineHeight: 1.6,
           marginBottom: '1.5rem'
         }}>
-          {t.aboutUs.creator.content}
+          {t.aboutUs.inspiration.content}
+          
         </p>
         
         <p style={{ 
@@ -40,7 +41,7 @@ const AboutUs: React.FC = () => {
           lineHeight: 1.6,
           marginBottom: '1.5rem'
         }}>
-          {t.aboutUs.inspiration.content}
+          {t.aboutUs.creator.content}
         </p>
         
         <Box sx={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
@@ -49,16 +50,19 @@ const AboutUs: React.FC = () => {
             target="_blank" 
             rel="noopener noreferrer"
             style={{
-              display: 'inline-block',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               padding: '12px 24px',
-              backgroundColor: 'var(--color-primary)',
-              color: 'var(--color-text-primary)',
+              backgroundColor: 'var(--color-button)',
+              color: 'var(--color-text)',
               textDecoration: 'none',
               borderRadius: '8px',
               fontSize: '1rem',
               fontWeight: 500,
+              border: '1px solid var(--color-border)',
               transition: 'all 0.3s ease',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+              boxShadow: 'none'
             }}
             onMouseOver={(e) => {
               e.currentTarget.style.transform = 'translateY(-2px)';
@@ -73,7 +77,7 @@ const AboutUs: React.FC = () => {
           </a>
 
           <a 
-            href="https://paypal.me/FranciscoAnnoni?country.x=AR&locale.x=es_XC" 
+            href="https://buymeacoffee.com/franciscoannoni" 
             target="_blank" 
             rel="noopener noreferrer"
             style={{
@@ -97,7 +101,7 @@ const AboutUs: React.FC = () => {
               e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
             }}
           >
-            <span style={{ fontSize: '1.2rem', marginRight: '4px' }}>☕</span> {t.aboutUs.creator.donateButton}
+            ☕ {t.aboutUs.creator.donateButton}
           </a>
         </Box>
       </Box>

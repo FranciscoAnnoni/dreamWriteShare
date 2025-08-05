@@ -81,11 +81,11 @@ export const englishTranslations: Translations = {
     title: 'About Us',
     inspiration: {
       title: '✨ Our Vision',
-      content: 'We believe that every great innovation starts with a simple idea. DreamWriteShare is a space where creativity meets community, where your thoughts can inspire others and where collective imagination builds the future. Sometimes the most revolutionary concepts come from the most unexpected places.',
+      content: 'We believe great ideas start simple. DreamWriteShare is where creativity and community spark the unexpected.',
     },
     creator: {
       title: '👨‍💻 Meet the Creator',
-      content: 'Hi! I\'m Francisco Annoni, a passionate developer who believes in the power of ideas to change the world. This platform was born from my desire to create a space where creativity flows freely and every voice can be heard. I love building tools that connect people and unleash their potential.',
+      content: 'Hi! I\'m Francisco Annoni, a passionate developer who believes in the power of ideas to change the world. If you enjoy what I do and want to support my work, consider making a small contribution — every bit helps me keep creating.',
       portfolioButton: 'Visit Portfolio',
       donateButton: 'Support Development'
     }

@@ -23,6 +23,7 @@ export const spanishTranslations: Translations = {
       tooShort: 'Tu idea debe tener al menos 10 caracteres',
       alreadySubmitted: '¡Ya compartiste una idea hoy. Vuelve mañana!',
       errorSending: 'Hubo un error al enviar tu idea. Por favor intenta de nuevo.',
+      inappropriateLanguage: 'Tu idea contiene lenguaje inapropiado. Por favor, revísala y vuelve a intentar.',
     },
   },
 

@@ -4,8 +4,11 @@ import {
   List,
   ListItem,
   ListItemText,
-  Box
+  Box,
+  IconButton,
+  useMediaQuery
 } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { styled } from '@mui/material/styles';
 import { useT } from '../lenguajes/LanguageContext';
 
@@ -14,9 +17,28 @@ interface SideMenuProps {
   onPageChange: (page: string) => void;
 }
 
+const MenuButton = styled(IconButton)(() => ({
+  position: 'fixed',
+  top: '1rem',
+  left: '1rem',
+  zIndex: 1200,
+  color: 'var(--color-text)',
+  backgroundColor: 'var(--color-background)',
+  border: '1px solid var(--color-border)',
+  borderRadius: '8px',
+  padding: '8px',
+  '&:hover': {
+    backgroundColor: 'var(--color-button-hover)',
+  },
+  '@media (min-width: 901px)': {
+    display: 'none',
+  },
+}));
+
 const StyledDrawer = styled(Drawer)(() => ({
   '& .MuiDrawer-paper': {
-    width: 230,
+    width: '80%',
+    maxWidth: '230px',
     backgroundColor: 'var(--color-background)',
     borderRight: '2.5px dashed var(--color-border, #d1d5db)',
     borderLeft: 'none',
@@ -26,6 +48,12 @@ const StyledDrawer = styled(Drawer)(() => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    '@media (max-width: 900px)': {
+      width: '80%',
+      maxWidth: '250px',
+      borderRight: 'none',
+      boxShadow: '2px 0 12px rgba(0,0,0,0.1)',
+    }
   },
 }));
 
@@ -62,7 +90,9 @@ const StyledListItemText = styled(ListItemText, {
 const SideMenu: React.FC<SideMenuProps> = ({ onPageChange }) => {
   const [scrollY, setScrollY] = useState(0);
   const [activePageFromScroll, setActivePageFromScroll] = useState('shareYourIdea');
+  const [isOpen, setIsOpen] = useState(false);
   
+  const isMobile = useMediaQuery('(max-width: 900px)');
   const t = useT();
 
   // Crear menuItems dinámicamente usando las traducciones
@@ -132,35 +162,50 @@ const SideMenu: React.FC<SideMenuProps> = ({ onPageChange }) => {
   };
 
   return (
-    <StyledDrawer
-      variant="permanent"
-      anchor="left"
-    >
-      <Box sx={{ 
-        marginTop: '-200px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        width: '100%'
-      }}>
-        <List sx={{ width: '100%' }}>
-          {menuItems.map((item) => (
-            <StyledListItem
-              key={item.id}
-              active={activePage === item.page}
-              onClick={() => handleItemClick(item.page)}
-            >
-              <StyledListItemText
-                primary={item.label}
+    <>
+      <MenuButton 
+        onClick={() => setIsOpen(true)}
+        aria-label="menu"
+      >
+        <MenuIcon />
+      </MenuButton>
+
+      <StyledDrawer
+        variant={isMobile ? "temporary" : "permanent"}
+        anchor="left"
+        open={isMobile ? isOpen : true}
+        onClose={() => setIsOpen(false)}
+      >
+        <Box sx={{ 
+          marginTop: { xs: 0, md: '-200px' },
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          width: '100%',
+          pt: { xs: 4, md: 0 }
+        }}>
+          <List sx={{ width: '100%' }}>
+            {menuItems.map((item) => (
+              <StyledListItem
+                key={item.id}
                 active={activePage === item.page}
-              />
-            </StyledListItem>
-          ))}
-        </List>
-      </Box>
-    </StyledDrawer>
+                onClick={() => {
+                  handleItemClick(item.page);
+                  if (isMobile) setIsOpen(false);
+                }}
+              >
+                <StyledListItemText
+                  primary={item.label}
+                  active={activePage === item.page}
+                />
+              </StyledListItem>
+            ))}
+          </List>
+        </Box>
+      </StyledDrawer>
+    </>
   );
 };
 

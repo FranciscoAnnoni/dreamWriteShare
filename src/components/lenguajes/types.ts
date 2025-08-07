@@ -24,6 +24,7 @@ export interface Translations {
       tooShort: string;
       alreadySubmitted: string;
       errorSending: string;
+      inappropriateLanguage: string;
     };
   };
 

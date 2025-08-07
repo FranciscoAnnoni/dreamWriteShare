@@ -23,6 +23,7 @@ export const englishTranslations: Translations = {
       tooShort: 'Your idea must be at least 10 characters long',
       alreadySubmitted: 'You have already shared an idea today. Come back tomorrow!',
       errorSending: 'There was an error sending your idea. Please try again.',
+      inappropriateLanguage: 'Your idea contains inappropriate language. Please review it and try again.',
     },
   },
 

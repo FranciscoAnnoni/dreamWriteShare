@@ -1,5 +1,6 @@
 import React from 'react';
 import Box from '../../../base/box/box';
+import { useMediaQuery } from '@mui/material';
 
 interface DrawTextProps {
   sx?: React.CSSProperties;
@@ -7,6 +8,11 @@ interface DrawTextProps {
 
 const DrawText: React.FC<DrawTextProps> = ({ sx = {} }) => {
   const arrowColor = 'var(--color-text-secondary)';
+  const isMobile = useMediaQuery('(max-width: 900px)');
+  
+  if (isMobile) {
+    return null;
+  }
   
   const textStyles: React.CSSProperties = {
     fontFamily: 'Caveat, cursive, var(--font-family)',

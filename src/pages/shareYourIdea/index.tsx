@@ -10,6 +10,7 @@ import { AccessTime } from '@mui/icons-material';
 import { saveIdea } from '../../firebase/firestore';
 import { Alert, Snackbar } from '@mui/material';
 import { isValidIdea, getValidationMessage } from './components/validator/ideaValidator';
+import { containsBadWords } from '../../utils/badWords';
 import { dailySubmissionManager } from './components/localStorage';
 import { getCachedUserCountry } from '../../utils/geolocation';
 import { useT } from '../../components/lenguajes/LanguageContext';
@@ -77,6 +78,15 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
 
     if (!isValidIdea(ideaText)) {
       setAlertMessage(getValidationMessage(ideaText));
+      setAlertType('error');
+      setShowAlert(true);
+      return;
+    }
+
+    // Verificar palabras prohibidas
+    const hasBadWords = await containsBadWords(ideaText);
+    if (hasBadWords) {
+      setAlertMessage(t.shareIdea.validation.inappropriateLanguage);
       setAlertType('error');
       setShowAlert(true);
       return;

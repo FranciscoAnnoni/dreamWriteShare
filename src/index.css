@@ -191,22 +191,31 @@ h1 {
   text-align: center;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 750px) {
   #root {
-    max-width: 100vw;
+    max-width: none;
     margin: 0;
     padding: 0;
+    text-align: initial;
   }
   .MuiBox-root {
     margin-left: 0 !important;
   }
-}
-
-@media (max-width: 850px) {
-  #root {
-    max-width: 100vw;
-    margin: 0;
-    padding: 0;
+  
+  /* Resetear completamente los estilos de css-1uygidu */
+  .css-1uygidu {
+    height: initial !important;
+    display: initial !important;
+    align-items: initial !important;
+    justify-content: initial !important;
+  }
+  
+  /* También resetear para MuiBox-root */
+  .MuiBox-root.css-1uygidu {
+    height: initial !important;
+    display: initial !important;
+    align-items: initial !important;
+    justify-content: initial !important;
   }
 }
 

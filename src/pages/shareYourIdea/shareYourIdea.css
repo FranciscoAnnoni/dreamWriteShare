@@ -1,0 +1,210 @@
+/* Estilos para shareYourIdea */
+.share-your-idea-container {
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: -8rem;
+  position: relative;
+}
+
+.share-your-idea-title-box {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.share-your-idea-title-scale {
+  transform: scale(1.1);
+}
+
+.share-your-idea-subtitle {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.share-your-idea-input-scale {
+  transform: scale(1.2);
+}
+
+.share-your-idea-daily-limit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  font-style: italic;
+  opacity: 0.8;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.share-your-idea-button-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+/* Estilos para title-with-logo */
+.title-with-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+}
+
+/* Media query para diseño móvil responsivo en 750px */
+@media (max-width: 750px) {
+  .share-your-idea-container {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 20px max(10px, calc((100vw - 700px) / 2));
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .share-your-idea-title-box {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .share-your-idea-title-scale {
+    transform: none;
+    width: 100%;
+    text-align: center;
+  }
+
+  .share-your-idea-subtitle {
+    margin-bottom: 0;
+    display: block;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 0 10px;
+  }
+
+  .share-your-idea-draw-text {
+    display: none;
+  }
+
+  .share-your-idea-input-scale {
+    transform: none;
+    width: 100%;
+    max-width: calc(100vw - 40px);
+  }
+
+  .share-your-idea-daily-limit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+    font-style: italic;
+    opacity: 0.8;
+    letter-spacing: 0.3px;
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .share-your-idea-button-box {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  /* Mobile title-with-logo */
+  .title-with-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-family);
+    width: 100%;
+  }
+
+  .title-with-logo h1 {
+    font-size: 1.8rem !important;
+    margin: 0;
+    text-align: center;
+  }
+
+  .logo--light {
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Media query para pantallas medianas (500px) */
+@media (max-width: 500px) {
+  .share-your-idea-container {
+    gap: 1rem;
+    padding: 15px max(10px, calc((100vw - 480px) / 2));
+  }
+
+  .share-your-idea-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .title-with-logo h1 {
+    font-size: 1.6rem !important;
+  }
+
+  .share-your-idea-daily-limit {
+    font-size: 0.75rem;
+  }
+}
+
+/* Media query para pantallas pequeñas (350px) */
+@media (max-width: 350px) {
+  .share-your-idea-container {
+    gap: 0.8rem;
+    padding: 12px max(10px, calc((100vw - 330px) / 2));
+  }
+
+  .share-your-idea-subtitle {
+    font-size: 0.8rem;
+    padding: 0 5px;
+  }
+
+  .title-with-logo h1 {
+    font-size: 1.4rem !important;
+  }
+
+  .share-your-idea-daily-limit {
+    font-size: 0.7rem;
+    padding: 0 15px;
+  }
+}
+
+/* Media query para pantallas muy pequeñas (250px - límite mínimo) */
+@media (max-width: 250px) {
+  .share-your-idea-container {
+    gap: 0.6rem;
+    padding: 10px;
+  }
+
+  .share-your-idea-subtitle {
+    font-size: 0.75rem;
+    padding: 0;
+  }
+
+  .title-with-logo h1 {
+    font-size: 1.2rem !important;
+  }
+
+  .share-your-idea-daily-limit {
+    font-size: 0.65rem;
+    padding: 0 10px;
+  }
+
+  .logo--light {
+    font-size: 0.7rem !important;
+  }
+}

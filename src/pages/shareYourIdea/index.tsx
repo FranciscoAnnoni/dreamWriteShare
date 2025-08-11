@@ -14,6 +14,7 @@ import { containsBadWords } from '../../utils/badWords';
 import { dailySubmissionManager } from './components/localStorage';
 import { getCachedUserCountry } from '../../utils/geolocation';
 import { useT } from '../../components/lenguajes/LanguageContext';
+import './shareYourIdea.css';
 
 interface ShareYourIdeaProps {
   onPageChange?: (page: string) => void;
@@ -136,9 +137,9 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
     });
   };
   return (
-    <div className="share-your-idea" style={{flexDirection: 'column', gap: '2rem', marginTop: '-8rem', position: 'relative'}}>
-      <Box sx={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ transform: 'scale(1.1)' }}>
+    <div className="share-your-idea share-your-idea-container">
+      <Box className="share-your-idea-title-box">
+        <div className="share-your-idea-title-scale">
           <TitleWithLogo 
             title={t.shareIdea.title}
             logo={'💡 '}
@@ -148,19 +149,21 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
         </div>
       </Box> 
        
-        <LittleText sx={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+        <LittleText className="share-your-idea-subtitle">
           {t.shareIdea.subtitle}
         </LittleText>
 
-        <DrawText sx={{ 
-          position: 'absolute',
-          right: '-350px',
-          top: '60px',
-          transform: 'translateY(-50%)',
-          zIndex: 1
-        }} />
+        <div className="share-your-idea-draw-text">
+          <DrawText sx={{ 
+            position: 'absolute',
+            right: '-350px',
+            top: '60px',
+            transform: 'translateY(-50%)',
+            zIndex: 1
+          }} />
+        </div>
 
-        <div style={{ transform: 'scale(1.2)' }}>
+        <div className="share-your-idea-input-scale">
           <InputText 
             placeholder={t.shareIdea.placeholder}
             value={ideaText}
@@ -170,26 +173,19 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
         </div>
 
         <LittleText 
-          sx={{ 
-            display: 'flex',
-            alignItems: 'center', 
-            justifyContent: 'center',
-            marginTop: '2rem', 
-            fontStyle: 'italic', 
-            opacity: 0.8, 
-            letterSpacing: '0.5px', 
-            fontSize: '0.9rem',
-            color: !canSubmit ? '#ff6b6b' : 'inherit'
-          }}
+          className="share-your-idea-daily-limit"
           icon={<AccessTime sx={{ fontSize: '1rem', opacity: 0.7 }} />}
           iconPosition="left"
+          sx={{
+            color: !canSubmit ? '#ff6b6b' : 'inherit'
+          }}
         >
           {canSubmit 
             ? t.shareIdea.dailyLimit 
             : t.shareIdea.dailyLimitReached}
         </LittleText>
 
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '5rem' }}>
+        <Box className="share-your-idea-button-box">
           <Button 
             variant="primary" 
             size="large"

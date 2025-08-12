@@ -135,13 +135,6 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
           </Box>
 
           <Box className="see-other-ideas-controls-box">
-            <SelectDropdown
-              options={sortOptions}
-              value={sortBy}
-              onChange={setSortBy}
-              placeholder={t.seeIdeas.sorting.byStars}
-              className="ideas-sort-dropdown"
-            />
             
             <CleanButton
               text={t.seeIdeas.voteMoreIdeas}
@@ -151,6 +144,14 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
               size="medium"
               className="see-other-ideas-vote-button"
             />
+            <SelectDropdown
+              options={sortOptions}
+              value={sortBy}
+              onChange={setSortBy}
+              placeholder={t.seeIdeas.sorting.byStars}
+              className="ideas-sort-dropdown"
+            />
+            
           </Box>
           {loading ? (
             <Loading 

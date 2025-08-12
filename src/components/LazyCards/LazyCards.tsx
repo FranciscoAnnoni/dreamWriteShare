@@ -12,8 +12,13 @@ interface LazyCardsProps {
 }
 
 const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false, onVoteSubmitted }) => {
-  const countries = ['España', 'México', 'Argentina', 'Chile', 'Colombia', 'Perú', 'Estados Unidos', 'Francia', 'Italia', 'Alemania'];
-  
+  const countries = [
+    'España', 'México', 'Argentina', 'Chile', 'Colombia', 'Perú', 'Estados Unidos', 'Francia', 'Italia', 'Alemania', '',
+    'Brasil', 'Canadá', 'Reino Unido', 'Japón', 'China', 'India', 'Rusia', 'Australia', 'Sudáfrica',
+    'Corea del Sur', 'Indonesia', 'Arabia Saudita', 'Turquía', 'Países Bajos', 'Suecia', 'Noruega',
+    'Suiza', 'Bélgica', 'Dinamarca', 'Finlandia', 'Nueva Zelanda', 'Singapur', 'Emiratos Árabes Unidos',
+    'Egipto', 'Pakistán', 'Vietnam', 'Tailandia', 'Nigeria', 'Polonia', 'Malasia'
+  ];
   const [selectedIdea, setSelectedIdea] = useState<Idea | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   
@@ -109,7 +114,6 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false, onVoteSub
           >
             <Box
               className="lazy-cards-virtual-container"
-              style={{ height: `${ideas.length * CARD_HEIGHT}px` }}
             >
               <Box
                 className="lazy-cards-visible-items-container"
@@ -139,7 +143,7 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false, onVoteSub
               className="lazy-cards-scrollbar-thumb"
               style={{
                 top: `${ideas.length > 3 ? (scrollTop / (ideas.length * CARD_HEIGHT - CONTAINER_HEIGHT)) * (CONTAINER_HEIGHT - (CONTAINER_HEIGHT * CONTAINER_HEIGHT) / (ideas.length * CARD_HEIGHT) - 15 ) : 0 }px`,
-                height: `${ideas.length > 3 ? Math.max(20, (CONTAINER_HEIGHT * CONTAINER_HEIGHT) / (ideas.length * CARD_HEIGHT)) : 20}px`,
+                height: `100px`,
               }}
             />
           </Box>

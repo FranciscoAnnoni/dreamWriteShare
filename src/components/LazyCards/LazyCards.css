@@ -68,6 +68,7 @@
   padding-top: 25px;
   margin-left: -9px;
   gap: 20px;
+  padding-bottom: 25px;
 }
 
 .lazy-cards-custom-scrollbar {
@@ -93,6 +94,21 @@
 
 /* Simple responsive breakpoints */
 @media (max-width: 750px) {
+  .lazy-cards-visible-items-container {
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25px;
+  margin-left: 0px;
+  padding-bottom: 25px;
+  }
+
+  .lazy-cards-main-container {
+    width: 80%;
+  }
+
+  .lazy-cards-custom-scrollbar {
+  display: none;
+  }
   .lazy-cards-external-container {
     max-width: calc(100vw - 20px);
   }
@@ -101,7 +117,11 @@
   .lazy-cards-content-container--full-width {
     max-width: calc(100vw - 20px);
   }
-  
+  .lazy-cards-virtual-container {
+  position: relative;
+  padding-right: 0px;
+  }
+
   .lazy-cards-visible-items-container {
     gap: 12px;
     padding-top: 20px;
@@ -109,9 +129,11 @@
 }
 
 @media (max-width: 480px) {
+
   .lazy-cards-visible-items-container {
     gap: 8px;
     padding-top: 15px;
+    margin-left: 0; 
   }
 }
 
@@ -119,6 +141,7 @@
   .lazy-cards-visible-items-container {
     gap: 6px;
     padding-top: 12px;
+    margin-left: 0; 
   }
 }
 

@@ -50,6 +50,7 @@
 
 .see-other-ideas-controls-box {
   display: flex;
+  flex-direction: row-reverse;
   margin-bottom: 14px;
   align-items: center;
   justify-content: space-between;
@@ -59,9 +60,6 @@
   box-sizing: border-box;
 }
 
-.see-other-ideas-vote-button {
-  margin-right: 15px;
-}
 
 /* Estilos para title-with-logo */
 .title-with-logo {
@@ -73,8 +71,12 @@
 
 /* Simple responsive breakpoints */
 @media (max-width: 750px) {
+  .select-dropdown {
+    margin-left: 0;
+  }
   .see-other-ideas-container {
-    padding: 20px 15px;
+    padding: 0 0px;
+    min-height: 80vh;
   }
 
   .see-other-ideas-title-box {
@@ -83,9 +85,10 @@
 
   .see-other-ideas-no-ideas-box,
   .see-other-ideas-subtitle-box {
-    max-width: 100%;
+    max-width: 80%;
     margin-bottom: 1.5rem;
     padding: 0 10px;
+    font-size: 0.5rem !important;
   }
 
   .see-other-ideas-no-ideas-title {
@@ -99,14 +102,13 @@
   }
 
   .see-other-ideas-subtitle-text {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .see-other-ideas-controls-box {
-    flex-direction: column;
     margin-bottom: 12px;
-    max-width: calc(100vw - 20px);
     gap: 1rem;
+    width: 85%;
   }
 
   .see-other-ideas-vote-button {
@@ -124,7 +126,24 @@
     font-size: 0.8rem !important;
   }
 }
-
+@media (max-width: 530px) {
+  .select-dropdown {
+    width: 100%;
+    margin-left: 0;
+  }
+  .see-other-ideas-vote-button{
+    width: 105% !important;
+    max-width: 105%;
+  } 
+  .see-other-ideas-controls-box {
+    margin-bottom: 12px;
+    max-width: calc(100vw - 20px);
+    gap: 1rem;
+    width: 85%;
+    flex-direction: column; 
+  }
+  
+}
 @media (max-width: 480px) {
   .see-other-ideas-container {
     padding: 15px 10px;
@@ -143,7 +162,7 @@
   }
 
   .see-other-ideas-subtitle-text {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .see-other-ideas-controls-box {
@@ -174,7 +193,7 @@
   }
 
   .see-other-ideas-subtitle-text {
-    font-size: 0.95rem;
+    font-size: 0.8rem;
   }
 
   .see-other-ideas-controls-box {

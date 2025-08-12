@@ -57,7 +57,7 @@
 /* Media query para diseño móvil responsivo en 750px */
 @media (max-width: 750px) {
   .share-your-idea-container {
-    margin-top: 70px;
+    margin-top: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,6 +65,7 @@
     padding: 20px max(10px, calc((100vw - 700px) / 2));
     position: relative;
     box-sizing: border-box;
+    min-height: 80vh;
   }
 
   .share-your-idea-title-box {

@@ -3,6 +3,7 @@ import { useInView } from 'react-intersection-observer';
 import { Box } from '@mui/material';
 import Card from '../../base/card/card';
 import type { Idea } from '../../firebase/firestore';
+import './LazyCards.css';
 
 interface LazyCardProps {
   idea: Idea;
@@ -14,23 +15,16 @@ interface LazyCardProps {
 
 const LazyCard: React.FC<LazyCardProps> = ({ idea, rating, location, date, onClick }) => {
   const { ref, inView } = useInView({
-    triggerOnce: false, // Cambiado a false para mejor control
+    triggerOnce: false,
     threshold: 0.1,
     rootMargin: '50px',
   });
 
-  const cardStyles = {
-    transition: 'opacity 0.2s ease-in-out, transform 0.2s ease-in-out',
-    opacity: inView ? 1 : 0.3,
-    transform: inView ? 'scale(1)' : 'scale(0.98)',
-    marginBottom: '8px',
-    width: '650px',
-    height: '130px',
-    flexShrink: 0,
-  };
-
   return (
-    <Box ref={ref} sx={cardStyles}>
+    <Box 
+      ref={ref} 
+      className={`lazy-card-wrapper ${inView ? 'lazy-card-wrapper--visible' : 'lazy-card-wrapper--hidden'}`}
+    >
       <Card
         description={idea.idea}
         rating={rating}

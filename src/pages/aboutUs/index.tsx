@@ -2,21 +2,14 @@ import React from 'react';
 import Box from '../../base/box/box';
 import TitleWithLogo from '../../components/titleWithLogo/titleWithLogo';
 import { useT } from '../../components/lenguajes/LanguageContext';
+import './aboutUs.css';
 
 const AboutUs: React.FC = () => {
   const t = useT();
   
   return (
-    <div className="about-us" style={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      flexDirection: 'column', 
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '2rem',
-      marginTop: '-10rem'
-    }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className="about-us-container">
+      <Box className="about-us-title-box">
         <TitleWithLogo 
           title={t.aboutUs.title}
           logo={'ℹ️ '}
@@ -24,54 +17,21 @@ const AboutUs: React.FC = () => {
           gap={16}
         />
       </Box>
-      <Box sx={{ textAlign: 'center', maxWidth: '700px', padding: '0 16px' }}>
-        <p style={{ 
-          fontSize: '1.1rem', 
-          color: 'var(--color-text-primary)', 
-          lineHeight: 1.6,
-          marginBottom: '1.5rem'
-        }}>
+      <Box className="about-us-content-box">
+        <p className="about-us-inspiration-text">
           {t.aboutUs.inspiration.content}
-          
         </p>
         
-        <p style={{ 
-          fontSize: '1rem', 
-          color: 'var(--color-text-secondary)', 
-          lineHeight: 1.6,
-          marginBottom: '1.5rem'
-        }}>
+        <p className="about-us-creator-text">
           {t.aboutUs.creator.content}
         </p>
         
-        <Box sx={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+        <Box className="about-us-buttons-box">
           <a 
             href="https://francisco-annoni.empressaria.com.ar/" 
             target="_blank" 
             rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '12px 24px',
-              backgroundColor: 'var(--color-button)',
-              color: 'var(--color-text)',
-              textDecoration: 'none',
-              borderRadius: '8px',
-              fontSize: '1rem',
-              fontWeight: 500,
-              border: '1px solid var(--color-border)',
-              transition: 'all 0.3s ease',
-              boxShadow: 'none'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
-            }}
+            className="about-us-portfolio-link"
           >
             🌐 {t.aboutUs.creator.portfolioButton}
           </a>
@@ -80,26 +40,7 @@ const AboutUs: React.FC = () => {
             href="https://buymeacoffee.com/franciscoannoni" 
             target="_blank" 
             rel="noopener noreferrer"
-            style={{
-              display: 'inline-block',
-              padding: '12px 24px',
-              backgroundColor: '#ffbe33', // Más amarillo con toque naranja
-              color: '#000000',
-              textDecoration: 'none',
-              borderRadius: '8px',
-              fontSize: '1rem',
-              fontWeight: 500,
-              transition: 'all 0.3s ease',
-              boxShadow: '0 2px 8px rgba(255, 190, 51, 0.3)'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
-            }}
+            className="about-us-donate-link"
           >
             ☕ {t.aboutUs.creator.donateButton}
           </a>

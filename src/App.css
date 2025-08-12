@@ -5,6 +5,13 @@
   text-align: center;
 }
 
+.main-content {
+  flex-grow: 1;
+  margin-left: 20px;
+  min-height: 100vh;
+}
+
+
 @media (max-width: 750px) {
   #root {
     max-width: none;
@@ -12,4 +19,10 @@
     padding: 0;
     text-align: initial;
   }
+
+.main-content {
+  flex-grow: 1;
+  margin-left: 0px;
+  min-height: 100vh;
+}
 }

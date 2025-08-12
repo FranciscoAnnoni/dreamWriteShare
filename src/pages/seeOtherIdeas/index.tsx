@@ -9,6 +9,7 @@ import VoteIdeas from './voteIdeas';
 import { getIdeas, type Idea } from '../../firebase/firestore';
 import { Star } from '@mui/icons-material';
 import { useT } from '../../components/lenguajes/LanguageContext';
+import './seeOtherIdeas.css';
 
 interface SeeOtherIdeasProps {
   shouldRefresh?: boolean;
@@ -98,15 +99,8 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
   };
 
   return (
-    <div className="see-other-ideas" style={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      flexDirection: 'column', 
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-
-    }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
+    <div className="see-other-ideas see-other-ideas-container">
+      <Box className="see-other-ideas-title-box">
         <TitleWithLogo 
           title={t.seeIdeas.title}
           logo={'👀 '}
@@ -116,19 +110,11 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
       </Box>
       
       {!loading && !hasIdeas ? (
-        <Box sx={{ textAlign: 'center', maxWidth: '600px', marginBottom: '2rem' }}>
-          <p style={{ 
-            fontSize: '1.2rem', 
-            color: 'var(--color-text-secondary)', 
-            margin: '0 0 1rem 0'
-          }}>
+        <Box className="see-other-ideas-no-ideas-box">
+          <p className="see-other-ideas-no-ideas-title">
             {t.seeIdeas.noIdeasYet}
           </p>
-          <p style={{ 
-            fontSize: '1rem', 
-            color: 'var(--color-text-secondary)', 
-            margin: '0 0 2rem 0'
-          }}>
+          <p className="see-other-ideas-no-ideas-subtitle">
             {t.seeIdeas.noIdeasSubtext}
           </p>
           <CleanButton
@@ -142,24 +128,13 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
         </Box>
       ) : (
         <>
-          <Box sx={{ textAlign: 'center', maxWidth: '600px', marginBottom: '2rem' }}>
-            <p style={{ 
-              fontSize: '1.2rem', 
-              color: 'var(--color-text-secondary)', 
-              margin: 0
-            }}>
+          <Box className="see-other-ideas-subtitle-box">
+            <p className="see-other-ideas-subtitle-text">
               {t.seeIdeas.subtitle}
             </p>
           </Box>
 
-          <Box sx={{ 
-            display: 'flex', 
-            marginBottom: '14px',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '720px',
-            padding: '0 20px'
-          }}>
+          <Box className="see-other-ideas-controls-box">
             <SelectDropdown
               options={sortOptions}
               value={sortBy}
@@ -174,7 +149,7 @@ const SeeOtherIdeas: React.FC<SeeOtherIdeasProps> = ({ shouldRefresh = false, on
               iconPosition="left"
               onClick={() => setVoteModalOpen(true)}
               size="medium"
-              sx={{marginRight: '15px'}}
+              className="see-other-ideas-vote-button"
             />
           </Box>
           {loading ? (

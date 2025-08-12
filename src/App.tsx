@@ -50,11 +50,7 @@ function App() {
         
         <Box 
           component="main" 
-          sx={{ 
-            flexGrow: 1, 
-            ml: '20px',
-            minHeight: '100vh'
-          }}
+          className="main-content"
         >
 
           <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

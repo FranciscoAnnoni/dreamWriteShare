@@ -193,21 +193,14 @@ h1 {
 
 @media (max-width: 750px) {
   #root {
-    max-width: none;
     margin: 0;
     padding: 0;
     text-align: initial;
   }
-  .MuiBox-root {
-    margin-left: 0 !important;
-  }
   
-  /* Resetear completamente los estilos de css-1uygidu */
-  .css-1uygidu {
-    height: initial !important;
-    display: initial !important;
-    align-items: initial !important;
-    justify-content: initial !important;
+  .css-1nzfxx8 {
+      margin-left: initial;
+      min-height: 100vh;
   }
   
   /* También resetear para MuiBox-root */

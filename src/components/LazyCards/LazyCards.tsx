@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Box } from '@mui/material';
 import LazyCard from './LazyCard';
 import IdeaDialog from '../../pages/seeOtherIdeas/components/ideaDialog';
@@ -21,11 +21,30 @@ const LazyCards: React.FC<LazyCardsProps> = ({ ideas, loading = false, onVoteSub
   ];
   const [selectedIdea, setSelectedIdea] = useState<Idea | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   
-  const CARD_HEIGHT = 138;
+  // Actualizar el ancho de ventana cuando cambie el tamaño
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  // Altura dinámica de las cards según breakpoints
+  const getCardHeight = () => {
+    if (windowWidth <= 350) return 110;
+    if (windowWidth <= 480) return 110;
+    if (windowWidth <= 750) return 120;
+    return 138; // Altura por defecto
+  };
+  
+  const CARD_HEIGHT = getCardHeight();
   const CARDS_VISIBLE = 4;
   const CONTAINER_HEIGHT = CARD_HEIGHT * CARDS_VISIBLE + 24;
-  const BUFFER_SIZE = 2;
+  const BUFFER_SIZE = 4;
   
   const [scrollTop, setScrollTop] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);

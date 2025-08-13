@@ -30,6 +30,7 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
   const [canSubmit, setCanSubmit] = useState(true);
   const [userCountry, setUserCountry] = useState<string>('');
   const [showCelebration, setShowCelebration] = useState(false);
+  const [isBackendComplete, setIsBackendComplete] = useState(false);
   
   const t = useT();
 
@@ -93,6 +94,8 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
       return;
     }
 
+    // ¡MOSTRAR CELEBRACIÓN INMEDIATAMENTE!
+    setShowCelebration(true);
     setIsLoading(true);
 
     try {
@@ -109,10 +112,16 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
       
       onIdeaSubmitted?.();
       
-      setShowCelebration(true);
+      // ¡MARCAR COMO COMPLETADO PARA QUE LA CELEBRACIÓN PROCEDA!
+      setIsBackendComplete(true);
       
     } catch (error) {
       console.error('❌ Error enviando la idea:', error);
+      
+      // Si hay error, ocultar celebración y mostrar error
+      setShowCelebration(false);
+      setIsBackendComplete(false);
+      
       setAlertMessage(t.shareIdea.validation.errorSending);
       setAlertType('error');
       setShowAlert(true);
@@ -123,6 +132,7 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
 
   const handleCelebrationComplete = () => {
     setShowCelebration(false);
+    setIsBackendComplete(false); // Reset para futuras celebraciones
   };
 
   const handleNavigateToSeeIdeas = () => {
@@ -213,6 +223,7 @@ const ShareYourIdea: React.FC<ShareYourIdeaProps> = ({ onPageChange, onIdeaSubmi
 
         <Celebration 
           show={showCelebration}
+          isBackendComplete={isBackendComplete}
           onComplete={handleCelebrationComplete}
           onNavigate={handleNavigateToSeeIdeas}
         />

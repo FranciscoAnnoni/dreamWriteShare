@@ -4,6 +4,7 @@ import { Close, Star, IosShare } from '@mui/icons-material';
 import CleanButton from '../../../base/cleanButton/cleanButton';
 import Loading from '../../../components/Loading/Loading';
 import { hasUserVotedIdea, voteIdea, getUserVoteForIdea, type Idea, type IdeaVote } from '../../../firebase/firestore';
+import './ideaDialog.css';
 
 interface IdeaDialogProps {
   idea: Idea | null;
@@ -166,36 +167,25 @@ const IdeaDialog: React.FC<IdeaDialogProps> = ({
       }}
     >
       <Box
+        className="idea-dialog-container"
         sx={{
           bgcolor: 'var(--color-background)',
           borderRadius: '16px',
           border: '1px solid var(--color-border)',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
           p: 0,
-          width: '700px',
-          maxHeight: '80vh',
           overflow: 'hidden',
           position: 'relative',
           outline: 'none'
         }}
       >
 
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            p: 3,
-            pb: 2,
-            borderBottom: '1px solid var(--color-border)'
-          }}
-        >
-          <h2 style={{
-            margin: 0,
-            fontSize: '1.5rem',
-            fontWeight: 600,
-            color: 'var(--color-text-primary)'
-          }}>
+        <Box className="idea-dialog-header" sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <h2 className="idea-dialog-title">
             💡 Idea Detail
           </h2>
           <Box sx={{ 
@@ -262,60 +252,24 @@ const IdeaDialog: React.FC<IdeaDialogProps> = ({
           </Box>
         </Box>
 
-        <Box sx={{ p: 3, overflowY: 'auto', maxHeight: 'calc(80vh - 100px)' }}>
-          <Box sx={{ mb: 3 }}>
-            <h3 style={{
-              margin: '0 0 12px 0',
-              fontSize: '1.1rem',
-              fontWeight: 500,
-              color: 'var(--color-text-primary)'
-            }}>
+        <Box className="idea-dialog-content">
+          <Box className="idea-dialog-description">
+            <h3 className="idea-dialog-description-title">
               📝 Descripción
             </h3>
-            <div style={{
-              margin: 0,
-              fontSize: '1rem',
-              lineHeight: '1.6',
-              color: 'var(--color-text-primary)',
-              backgroundColor: 'var(--color-hover)',
-              padding: '16px',
-              borderRadius: '12px',
-              border: '1px solid var(--color-border)',
-              height: 'auto',
-              minHeight: '200px',
-              boxSizing: 'border-box',
-              wordWrap: 'break-word',
-              overflow: 'hidden'
-            }}>
+            <div className="idea-dialog-description-text">
               {idea.idea}
             </div>
           </Box>
 
           {/* Sección en paralelo: Valoración y Votación */}
-          <Box sx={{ 
-            display: 'grid', 
-            gridTemplateColumns: '1fr 1fr', 
-            gap: 3,
-            mb: 3
-          }}>
+          <Box className="idea-dialog-voting-grid">
             {/* Valoración actual (izquierda) */}
             <Box>
-              <h3 style={{
-                margin: '0 0 8px 0',
-                fontSize: '1.1rem',
-                fontWeight: 500,
-                color: 'var(--color-text-primary)'
-              }}>
+              <h3 className="idea-dialog-section-title">
                 📊 Valoración Actual
               </h3>
-              <Box sx={{ 
-                padding: '16px',
-                backgroundColor: 'var(--color-hover)',
-                borderRadius: '12px',
-                border: '1px solid var(--color-border)',
-                textAlign: 'center',
-                height: '100px',
-              }}>
+              <Box className="idea-dialog-section-content">
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, mb: 1 }}>
                   {renderStars(idea.averageStars || 0)}
                 </Box>
@@ -343,23 +297,11 @@ const IdeaDialog: React.FC<IdeaDialogProps> = ({
 
             {/* Votación (derecha) */}
             <Box>
-              <h3 style={{
-                margin: '0 0 8px 0',
-                fontSize: '1.1rem',
-                fontWeight: 500,
-                color: 'var(--color-text-primary)'
-              }}>
+              <h3 className="idea-dialog-section-title">
                 {hasVoted ? '✅ Tu Voto' : '🌟 Votar Esta Idea'}
               </h3>
               
-              <Box sx={{ 
-                padding: '16px',
-                backgroundColor: 'var(--color-hover)',
-                borderRadius: '12px',
-                border: '1px solid var(--color-border)',
-                textAlign: 'center',
-                height: '100px',
-              }}>
+              <Box className="idea-dialog-section-content">
                 {hasVoted ? (
                   <>
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 0.5, mb: 1 }}>
@@ -439,83 +381,28 @@ const IdeaDialog: React.FC<IdeaDialogProps> = ({
           </Box>
 
           {/* Información adicional */}
-          <Box sx={{ 
-            display: 'grid', 
-            gridTemplateColumns: '1fr 1fr', 
-            gap: 3,
-            mt: 2
-          }}>
+          <Box className="idea-dialog-info-grid">
             {/* Ubicación */}
             <Box>
-              <h3 style={{
-                margin: '0 0 8px 0',
-                fontSize: '1.1rem',
-                fontWeight: 500,
-                color: 'var(--color-text-primary)'
-              }}>
+              <h3 className="idea-dialog-section-title">
                 🌍 Ubicación
               </h3>
-              <p style={{
-                margin: 0,
-                fontSize: '1rem',
-                color: 'var(--color-text-secondary)',
-                padding: '12px',
-                backgroundColor: 'var(--color-hover)',
-                borderRadius: '8px',
-                border: '1px solid var(--color-border)'
-              }}>
+              <p className="idea-dialog-info-content">
                 {location || 'No especificada'}
               </p>
             </Box>
 
             {/* Fecha */}
             <Box>
-              <h3 style={{
-                margin: '0 0 8px 0',
-                fontSize: '1.1rem',
-                fontWeight: 500,
-                color: 'var(--color-text-primary)'
-              }}>
+              <h3 className="idea-dialog-section-title">
                 📅 Fecha
               </h3>
-              <p style={{
-                margin: 0,
-                fontSize: '1rem',
-                color: 'var(--color-text-secondary)',
-                padding: '12px',
-                backgroundColor: 'var(--color-hover)',
-                borderRadius: '8px',
-                border: '1px solid var(--color-border)'
-              }}>
+              <p className="idea-dialog-info-content">
                 {date || 'No especificada'}
               </p>
             </Box>
           </Box>
 
-          {/* Puntos (si están disponibles) */}
-          <Box sx={{ mt: 3 }}>
-            <h3 style={{
-              margin: '0 0 8px 0',
-              fontSize: '1.1rem',
-              fontWeight: 500,
-              color: 'var(--color-text-primary)'
-            }}>
-              🎯 Visualizations
-            </h3>
-            <p style={{
-              margin: 0,
-              fontSize: '1rem',
-              fontWeight: 500,
-              color: 'var(--color-primary)',
-              padding: '12px',
-              backgroundColor: 'var(--color-hover)',
-              borderRadius: '8px',
-              border: '1px solid var(--color-border)',
-              textAlign: 'center'
-            }}>
-              {idea.points || 0} puntos
-            </p>
-          </Box>
         </Box>
       </Box>
     </Modal>

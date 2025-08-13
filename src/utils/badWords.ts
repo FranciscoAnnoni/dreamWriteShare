@@ -1,44 +1,93 @@
-// Definición de tipos para el sistema de filtrado
-type WordCategory = 'discriminatory' | 'offensive' | 'insults';
+// ============================================
+// CONFIGURACIÓN SIMPLE DE PALABRAS PROHIBIDAS
+// ============================================
+// Solo agrega las palabras malas aquí, una por línea:
 
-interface BadWord {
-  word: string;
-  variations?: string[];
-  category: WordCategory;
-  language: 'es' | 'en' | 'both';
-}
-
-// Lista de palabras prohibidas (se mantiene como const para mejor rendimiento)
-const badWords: BadWord[] = [
-  // Discriminatorias
-  {
-    word: 'negro',
-    variations: ['negr@', 'negrit@'],
-    category: 'discriminatory',
-    language: 'es'
-  },
-  // Insultos generales - español
-  {
-    word: 'boludo',
-    variations: ['bolud@', 'boludx', 'boludos', 'boluda', 'boludas'],
-    category: 'insults',
-    language: 'es'
-  },
-  {
-    word: 'puto',
-    variations: ['put@', 'putx', 'putos', 'puta', 'putas'],
-    category: 'offensive',
-    language: 'es'
-  },
-  // Palabras ofensivas - inglés
-  {
-    word: 'faggot',
-    variations: ['fag'],
-    category: 'offensive',
-    language: 'en'
-  },
-  // ... más palabras se pueden agregar aquí
+const bannedWords: string[] = [
+  // Insultos en español
+  'idiota',
+  'estúpido', 
+  'tonto',
+  'boludo',
+  'pelotudo',
+  'puto',
+  'puta',
+  'hijo de puta',
+  'cabrón',
+  'cabron',
+  'pendejo',
+  'imbécil',
+  'imbecil',
+  'gilipollas',
+  'capullo',
+  'coño',
+  'joder',
+  'mierda',
+  'carajo',
+  'pinche',
+  
+  // Palabras discriminatorias
+  'negro', // cuando se usa como insulto
+  'maricón',
+  'maricon', 
+  'faggot',
+  'retrasado',
+  'mongolito',
+  
+  // Insultos en inglés
+  'stupid',
+  'idiot', 
+  'moron',
+  'retard',
+  'fuck',
+  'shit',
+  'bitch',
+  'asshole',
+  'damn',
+  'hell',
+  
+  // Agregar más palabras aquí fácilmente:
+  // 'nueva_palabra_mala',
+  // 'otra_palabra',
 ];
+
+// ============================================
+// SUGERENCIAS DE PALABRAS ALTERNATIVAS
+// ============================================
+// Mapeo simple: palabra mala -> alternativas positivas
+
+const wordAlternatives: Record<string, string[]> = {
+  // Insultos generales
+  'idiota': ['persona', 'amigo', 'compañero'],
+  'estúpido': ['confundido', 'equivocado', 'poco informado'],
+  'tonto': ['ingenuo', 'novato', 'principiante'],
+  'boludo': ['amigo', 'compañero', 'tipo'],
+  'pelotudo': ['amigo', 'compañero', 'persona'],
+  'imbécil': ['persona', 'individuo', 'alguien'],
+  'imbecil': ['persona', 'individuo', 'alguien'],
+  
+  // Palabras vulgares
+  'puto': ['tipo', 'persona', 'individuo'],
+  'puta': ['persona', 'mujer', 'individuo'],
+  'mierda': ['cosa', 'problema', 'situación'],
+  'carajo': ['rayos', 'cielos', 'demonios'],
+  'coño': ['vaya', 'rayos', 'cielos'],
+  'joder': ['molestar', 'fastidiar', 'complicar'],
+  
+  // Términos discriminatorios
+  'retrasado': ['persona especial', 'persona con discapacidad'],
+  'maricón': ['persona', 'individuo'],
+  'maricon': ['persona', 'individuo'],
+  
+  // Inglés
+  'stupid': ['confused', 'mistaken', 'uninformed'],
+  'idiot': ['person', 'individual'],
+  'moron': ['person', 'individual'],
+  'fuck': ['darn', 'gosh'],
+  'shit': ['stuff', 'thing'],
+  'bitch': ['person', 'individual'],
+  'asshole': ['person', 'individual'],
+};
 
 // Función para normalizar el texto (quitar acentos, convertir a minúsculas)
 const normalizeText = (text: string): string => {
@@ -48,20 +97,13 @@ const normalizeText = (text: string): string => {
     .replace(/[\u0300-\u036f]/g, '');
 };
 
-// Función para verificar si una palabra está en la lista negra
+// Función para verificar si una palabra está en la lista negra (SIMPLIFICADA)
 const isWordBanned = (word: string): boolean => {
   const normalizedWord = normalizeText(word);
   
-  return badWords.some(badWord => {
-    // Verificar la palabra principal
-    if (normalizeText(badWord.word) === normalizedWord) {
-      return true;
-    }
-    
-    // Verificar variaciones
-    return badWord.variations?.some(
-      variation => normalizeText(variation) === normalizedWord
-    ) || false;
+  return bannedWords.some(badWord => {
+    const normalizedBadWord = normalizeText(badWord);
+    return normalizedBadWord === normalizedWord;
   });
 };
 
@@ -96,10 +138,19 @@ export const containsBadWords = async (text: string): Promise<boolean> => {
   }
 };
 
-// Función para obtener sugerencias de palabras alternativas (para futura implementación)
+// Función para obtener sugerencias de palabras alternativas (SIMPLIFICADA)
 export const getSuggestions = (badWord: string): string[] => {
-  // Aquí se podría implementar un sistema de sugerencias de palabras alternativas
-  return [];
+  const normalizedWord = normalizeText(badWord);
+  
+  // Buscar alternativas en el mapa
+  for (const [key, alternatives] of Object.entries(wordAlternatives)) {
+    if (normalizeText(key) === normalizedWord) {
+      return alternatives;
+    }
+  }
+  
+  // Si no encuentra alternativas específicas, devolver genéricas
+  return ['persona', 'individuo', 'alguien'];
 };
 
 // Función para censurar palabras prohibidas

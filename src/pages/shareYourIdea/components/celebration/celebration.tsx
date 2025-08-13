@@ -3,31 +3,37 @@ import './celebration.css';
 
 interface CelebrationProps {
   show: boolean;
+  isBackendComplete?: boolean;
   onComplete?: () => void;
   onNavigate?: () => void;
 }
 
-const Celebration: React.FC<CelebrationProps> = ({ show, onComplete, onNavigate }) => {
+const Celebration: React.FC<CelebrationProps> = ({ show, isBackendComplete = false, onComplete, onNavigate }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     if (show) {
       setIsVisible(true);
-      
       playHornSound();
-      
+    }
+  }, [show]);
+
+  // Efecto separado para manejar cuando el backend complete
+  useEffect(() => {
+    if (show && isBackendComplete) {
+      // Esperar un momento mínimo para que la celebración sea visible
       const timer = setTimeout(() => {
         setIsVisible(false);
         onComplete?.();
-    
+        
         setTimeout(() => {
           onNavigate?.();
         }, 500);
-      }, 3000);
+      }, 2000); // Reducido a 2 segundos ya que la celebración ya está mostrándose
 
       return () => clearTimeout(timer);
     }
-  }, [show, onComplete, onNavigate]);
+  }, [show, isBackendComplete, onComplete, onNavigate]);
 
   const playHornSound = () => {
     try {

@@ -151,7 +151,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ onPageChange }) => {
         targetPosition = window.innerHeight;
         break;
       case 'aboutUs':
-        targetPosition = window.innerHeight * 2;
+        targetPosition = window.innerHeight * 2.5;
         break;
     }
 

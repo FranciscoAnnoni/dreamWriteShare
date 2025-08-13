@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Box } from '@mui/material';
 import './App.css';
 import SideMenu from './components/SideMenu/SideMenu';
 import TopIcons from './components/TopIcons/TopIcons';
-import ShareYourIdea from './pages/shareYourIdea';
-import SeeOtherIdeas from './pages/seeOtherIdeas';
-import AboutUs from './pages/aboutUs';
+import Loading from './components/Loading/Loading';
 import { LanguageProvider } from './components/lenguajes/LanguageContext';
+
+// Lazy loading para componentes pesados
+const ShareYourIdea = lazy(() => import('./pages/shareYourIdea'));
+const SeeOtherIdeas = lazy(() => import('./pages/seeOtherIdeas'));
+const AboutUs = lazy(() => import('./pages/aboutUs'));
 
 function App() {
   const [currentPage, setCurrentPage] = useState('shareYourIdea');
@@ -54,15 +57,21 @@ function App() {
         >
 
           <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <ShareYourIdea onPageChange={handlePageChange} onIdeaSubmitted={handleIdeaSubmitted} />
+            <Suspense fallback={<Loading size="large" color="orange" text="Cargando..." />}>
+              <ShareYourIdea onPageChange={handlePageChange} onIdeaSubmitted={handleIdeaSubmitted} />
+            </Suspense>
           </Box>
           
           <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <SeeOtherIdeas shouldRefresh={shouldRefreshIdeas} onRefreshed={handleIdeasRefreshed} />
+            <Suspense fallback={<Loading size="large" color="orange" text="Cargando ideas..." />}>
+              <SeeOtherIdeas shouldRefresh={shouldRefreshIdeas} onRefreshed={handleIdeasRefreshed} />
+            </Suspense>
           </Box>
           
           <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <AboutUs />
+            <Suspense fallback={<Loading size="large" color="orange" text="Cargando..." />}>
+              <AboutUs />
+            </Suspense>
           </Box>
         </Box>
       </Box>

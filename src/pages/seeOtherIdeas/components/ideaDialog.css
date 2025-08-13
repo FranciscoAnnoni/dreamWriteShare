@@ -1,0 +1,235 @@
+/* IdeaDialog responsive styles */
+
+/* Contenedor principal del modal */
+.idea-dialog-container {
+  width: 700px;
+  max-height: 80vh;
+}
+
+/* Header del dialog */
+.idea-dialog-header {
+  padding: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.idea-dialog-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Contenido scrollable */
+.idea-dialog-content {
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(80vh - 100px);
+}
+
+/* Sección de descripción */
+.idea-dialog-description {
+  margin-bottom: 24px;
+}
+
+.idea-dialog-description-title {
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.idea-dialog-description-text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-hover);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  height: auto;
+  min-height: 200px;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+/* Grid para valoración y votación */
+.idea-dialog-voting-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+/* Grid para información adicional */
+.idea-dialog-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+/* Estilos comunes para secciones */
+.idea-dialog-section-title {
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.idea-dialog-section-content {
+  padding: 16px;
+  background-color: var(--color-hover);
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  text-align: center;
+  height: 100px;
+}
+
+.idea-dialog-info-content {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  padding: 12px;
+  background-color: var(--color-hover);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+/* Responsive breakpoints */
+@media (max-width: 750px) {
+  .idea-dialog-container {
+    width: 90vw;
+    max-width: 90vw;
+  }
+
+  .idea-dialog-header {
+    padding: 20px;
+    padding-bottom: 14px;
+  }
+
+  .idea-dialog-title {
+    font-size: 1.3rem;
+  }
+
+  .idea-dialog-content {
+    padding: 20px;
+  }
+
+  .idea-dialog-description-text {
+    min-height: 150px;
+    font-size: 0.95rem;
+    padding: 14px;
+  }
+
+  .idea-dialog-voting-grid,
+  .idea-dialog-info-grid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 500px) {
+  .idea-dialog-container {
+    width: 95vw;
+    max-width: 95vw;
+  }
+
+  .idea-dialog-header {
+    padding: 16px;
+    padding-bottom: 12px;
+  }
+
+  .idea-dialog-title {
+    font-size: 1.2rem;
+  }
+
+  .idea-dialog-content {
+    padding: 16px;
+  }
+
+  .idea-dialog-description {
+    margin-bottom: 20px;
+  }
+
+  .idea-dialog-description-title {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .idea-dialog-description-text {
+    min-height: 120px;
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+
+  /* Cambiar a layout vertical en pantallas pequeñas */
+  .idea-dialog-voting-grid,
+  .idea-dialog-info-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .idea-dialog-info-grid {
+    margin-top: 12px;
+  }
+
+  .idea-dialog-section-title {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .idea-dialog-section-content {
+    height: auto;
+    min-height: 80px;
+    padding: 14px;
+  }
+
+  .idea-dialog-info-content {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 350px) {
+  .idea-dialog-container {
+    width: 98vw;
+    max-width: 98vw;
+  }
+
+  .idea-dialog-header {
+    padding: 12px;
+    padding-bottom: 10px;
+  }
+
+  .idea-dialog-title {
+    font-size: 1.1rem;
+  }
+
+  .idea-dialog-content {
+    padding: 12px;
+  }
+
+  .idea-dialog-description-text {
+    min-height: 100px;
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  .idea-dialog-voting-grid,
+  .idea-dialog-info-grid {
+    gap: 12px;
+  }
+
+  .idea-dialog-section-content {
+    min-height: 70px;
+    padding: 12px;
+  }
+
+  .idea-dialog-info-content {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+}
